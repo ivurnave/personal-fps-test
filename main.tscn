@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3 uid="uid://cnn016244vni2"]
+
+[ext_resource type="PackedScene" uid="uid://drvfgid71y2jh" path="res://player.tscn" id="1_ig7tw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
+size = Vector3(30, 1, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
+size = Vector3(30, 1, 30)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xm2m"]
+albedo_color = Color(0.17205524, 0.07775196, 0.013269161, 1)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 1
+background_color = Color(0.83756435, 0.525249, 0.45322728, 1)
+sky = SubResource("Sky_0xm2m")
+ambient_light_source = 2
+ambient_light_color = Color(0.5057936, 0.40608752, 0.7869025, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0xm2m"]
+size = Vector3(10, 1, 10)
+
+[node name="World" type="Node"]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_7dm0k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_ig7tw")
+surface_material_override/0 = SubResource("StandardMaterial3D_0xm2m")
+
+[node name="Player" parent="." instance=ExtResource("1_ig7tw")]
+transform = Transform3D(0.9659258, 0, 0.25881922, 0, 1, 0, -0.25881922, 0, 0.9659258, 0, 0.100000024, 0)
+slide_on_ceiling = false
+posture_change_speed = 10.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.9659258, 0, -0.9659258, 0.258819, 0, 11, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h2yge")
+
+[node name="LevelGeometry" type="Node" parent="."]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, 10)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelGeometry/StaticBody3D"]
+shape = SubResource("BoxShape3D_ig7tw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelGeometry/StaticBody3D"]
+mesh = SubResource("BoxMesh_0xm2m")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="LevelGeometry/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelGeometry/StaticBody3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_ig7tw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelGeometry/StaticBody3D/StaticBody3D"]
+mesh = SubResource("BoxMesh_0xm2m")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.9659258, -0.12940961, 0.22414401, 0, 0.8660254, 0.5, -0.25881922, -0.4829629, 0.83651626, 3.8822885, 9, 14.488887)
+current = true
+fov = 32.1
