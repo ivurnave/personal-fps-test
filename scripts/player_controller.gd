@@ -15,12 +15,14 @@ class_name PlayerController extends CharacterBody3D
 
 @export_subgroup("Controllers")
 @export var movement_controller : MovementController
+@export var animation_controller : AnimationController
+
 
 # Internal state tracking
 var is_crouching := false
 var is_walking := false
 
-@onready var animation_tree := $CollisionShape3D/AnimationTree
+#@onready var animation_tree := $CollisionShape3D/AnimationTree
 
 func _ready() -> void:
 	movement_controller.initialize(self)
@@ -36,13 +38,12 @@ func _physics_process(delta: float) -> void:
 	# This is where we actually do the calculations based on the state of the player...
 	movement_controller.update(delta)
 	
-	# This is how we can change the speed of animations based on the speed of the player
-	var normalized_horizontal_velocity = Vector2(velocity.x, -velocity.z) * (1 / ground_speed)
-	animation_tree['parameters/Locomotion/blend_position'] = normalized_horizontal_velocity
+	animation_controller.processAnimationBasedOnState()
 
 func update_rotation(rotation_direction: Vector3):
 	global_transform.basis = Basis.from_euler(rotation_direction)
 
+# TODO: Rework this
 func calculate_posture(delta: float):
 	var current_height: float = $CollisionShape3D.shape.height
 	if is_crouching:

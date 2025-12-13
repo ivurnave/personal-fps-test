@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://cnn016244vni2"]
+[gd_scene load_steps=7 format=3 uid="uid://cnn016244vni2"]
 
-[ext_resource type="Texture2D" uid="uid://blrw3cinmaufn" path="res://assets/textures/grid.png" id="1_0wfyh"]
+[ext_resource type="Material" uid="uid://b1m31hn3ed7c0" path="res://resources/materials/grid_material.tres" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://drvfgid71y2jh" path="res://scenes/player.tscn" id="1_ig7tw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
@@ -8,11 +8,6 @@ size = Vector3(30, 1, 30)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
 size = Vector3(30, 1, 30)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sugp2"]
-albedo_texture = ExtResource("1_0wfyh")
-uv1_triplanar = true
-uv1_world_triplanar = true
 
 [sub_resource type="Sky" id="Sky_0xm2m"]
 
@@ -34,10 +29,10 @@ shape = SubResource("BoxShape3D_7dm0k")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 mesh = SubResource("BoxMesh_ig7tw")
-surface_material_override/0 = SubResource("StandardMaterial3D_sugp2")
+surface_material_override/0 = ExtResource("1_0wfyh")
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
-transform = Transform3D(0.9659258, 0, 0.25881922, 0, 1, 0, -0.25881922, 0, 0.9659258, -8.290158, 10.461169, 0)
+transform = Transform3D(0.9659258, 0, 0.25881922, 0, 1, 0, -0.25881922, 0, 0.9659258, -8.290158, 10.461169, -11.387005)
 slide_on_ceiling = false
 posture_change_speed = 10.0
 
@@ -48,34 +43,70 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_h2yge")
 
-[node name="LevelGeometry" type="Node" parent="."]
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.9659258, -0.12940961, 0.22414401, 0, 0.8660254, 0.5, -0.25881922, -0.4829629, 0.83651626, 3.8822885, 22.618675, 14.488887)
+fov = 32.1
+
+[node name="LevelGeometry" type="CSGCombiner3D" parent="."]
+use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="LevelGeometry"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
 use_collision = true
 size = Vector3(1, 20, 31)
+material = ExtResource("1_0wfyh")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="LevelGeometry"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+material_override = ExtResource("1_0wfyh")
 use_collision = true
 size = Vector3(1, 20, 31)
+material = ExtResource("1_0wfyh")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="LevelGeometry"]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 15)
 use_collision = true
 size = Vector3(1, 20, 31)
+material = ExtResource("1_0wfyh")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="LevelGeometry"]
 transform = Transform3D(2.9802322e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, 2.9802322e-08, 9.536743e-07, 0, -15)
 use_collision = true
 size = Vector3(1, 20, 31)
+material = ExtResource("1_0wfyh")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="LevelGeometry"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.632336, 1.5, -10.525935)
 use_collision = true
 polygon = PackedVector2Array(-4.3, -1.5, 0, 1, 5, 1, 5.6, -1.5)
 depth = 4.8
+material = ExtResource("1_0wfyh")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.9659258, -0.12940961, 0.22414401, 0, 0.8660254, 0.5, -0.25881922, -0.4829629, 0.83651626, 3.8822885, 9, 14.488887)
-fov = 32.1
+[node name="CSGBox3D5" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 9, -12.5)
+size = Vector3(9, 1, 4)
+material = ExtResource("1_0wfyh")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 5, -2)
+size = Vector3(9, 1, 4)
+material = ExtResource("1_0wfyh")
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="LevelGeometry"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -12.964051, 8, -6.0518703)
+use_collision = true
+polygon = PackedVector2Array(-2.044241, -3.497342, -2.0517092, -2.5010176, 4.4504156, 1.4920464, 4.5339775, 0.6724796)
+depth = 2.05
+material = ExtResource("1_0wfyh")
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="LevelGeometry"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -13.015921, 4, 4.465821)
+use_collision = true
+polygon = PackedVector2Array(-2.044241, -3.497342, -2.0517092, -2.5010176, 4.4504156, 1.4920464, 4.5339775, 0.6724796)
+depth = 2.05
+material = ExtResource("1_0wfyh")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.6491699, 8.504095)
+size = Vector3(9, 1.7016602, 4)
+material = ExtResource("1_0wfyh")

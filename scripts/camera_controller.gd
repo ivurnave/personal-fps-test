@@ -8,10 +8,16 @@ class_name CameraController extends Node3D
 @export_group("Camera Tilt")
 @export var tilt_lower_limit = -90
 @export var tilt_upper_limit = 90
+@export var shake_decay_speed: float = 10.0
 
 var _rotation : Vector3
+#var shake_strength : float = 0.0
+#var base_transform : Transform3D
 
-func update_camera(input: Vector2) -> void:
+#func _ready() -> void:
+	#base_transform = transform
+
+func update_camera_for_mouse_movement(input: Vector2) -> void:
 	_rotation.x += input.y
 	_rotation.y += input.x
 	_rotation.x = clamp(_rotation.x, deg_to_rad(tilt_lower_limit), deg_to_rad(tilt_upper_limit))
@@ -28,5 +34,9 @@ func update_camera(input: Vector2) -> void:
 	
 	rotation.z = 0 # prevent weird z-rotations
 
+#func apply_shake(strength: float):
+	#shake_strength = strength
+
 func _process(_delta: float) -> void:
-	update_camera(component_mouse_capture._mouse_input)
+	
+	update_camera_for_mouse_movement(component_mouse_capture._mouse_input)

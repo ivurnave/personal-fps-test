@@ -17,6 +17,9 @@ var wish_dir : Vector3
 ## Holds reference to vector of user inputs (Y direction is always zero)
 var input_dir: Vector3
 
+## Cached velocity before we update it
+var pre_move_velocity : Vector3
+
 func initialize(_player: PlayerController):
 	player = _player
 	modes = {
@@ -48,4 +51,7 @@ func update(delta):
 	input_dir = get_input_direction()
 	wish_dir = get_wish_dir()
 	modes[state].update(delta)
+	
+	pre_move_velocity = player.velocity
+	
 	player.move_and_slide()
