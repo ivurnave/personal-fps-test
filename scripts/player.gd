@@ -1,4 +1,4 @@
-class_name PlayerController extends CharacterBody3D
+extends CharacterBody3D
 
 @export var speed = 10
 @export_range(0,1) var move_acceleration = 0.1
