@@ -1,4 +1,5 @@
-class_name CameraController extends Node3D
+class_name CameraController
+extends Node3D
 
 @export_category("References")
 @export var player_controller : PlayerController
@@ -33,9 +34,6 @@ func update_camera_for_mouse_movement(input: Vector2) -> void:
 	player_controller.update_rotation(_player_rotation)
 	
 	rotation.z = 0 # prevent weird z-rotations
-
-#func apply_shake(strength: float):
-	#shake_strength = strength
 
 func _process(_delta: float) -> void:
 	

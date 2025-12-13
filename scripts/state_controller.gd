@@ -4,7 +4,10 @@ extends Node
 @export var player : PlayerController
 @export var movement_controller : MovementController
 @export var camera_effects_controller : CameraEffectsController
+
 var current_state
+var is_crouching
+var is_walking
 
 var was_on_floor : bool = false
 var pre_move_velocity : Vector3
@@ -13,6 +16,10 @@ var pre_move_velocity : Vector3
 ## emitted from other controllers
 func detect_current_state():
 	pre_move_velocity = player.velocity
+	
+	is_crouching = Input.is_action_pressed("crouch")
+	is_walking = Input.is_action_pressed("walk")
+	
 	var on_floor = player.is_on_floor()
 	
 	if !on_floor:
