@@ -1,9 +1,6 @@
 class_name GroundMovement extends BaseMovement
 
 # Ground movement settings
-@export var walk_speed := 7.0
-@export var sprint_speed := 8.5
-#@export var max_sprint_speed := 10
 @export var ground_accel := 11.0
 @export var ground_decel := 7.0
 @export var ground_friction := 3.5
@@ -39,6 +36,6 @@ func apply_jump_velocity():
 		player.velocity.y = player.jump_speed
 
 func get_move_speed() -> float:
-	if player.is_crouching: return player.crouch_speed
-	if player.is_walking: return player.walk_speed
+	if player.state_controller.is_crouching: return player.crouch_speed
+	if player.state_controller.is_walking: return player.walk_speed
 	return player.ground_speed
