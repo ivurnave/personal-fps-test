@@ -12,11 +12,6 @@ extends Node3D
 @export var shake_decay_speed: float = 10.0
 
 var _rotation : Vector3
-#var shake_strength : float = 0.0
-#var base_transform : Transform3D
-
-#func _ready() -> void:
-	#base_transform = transform
 
 func update_camera_for_mouse_movement(input: Vector2) -> void:
 	_rotation.x += input.y
@@ -36,5 +31,4 @@ func update_camera_for_mouse_movement(input: Vector2) -> void:
 	rotation.z = 0 # prevent weird z-rotations
 
 func _process(_delta: float) -> void:
-	
 	update_camera_for_mouse_movement(component_mouse_capture._mouse_input)
