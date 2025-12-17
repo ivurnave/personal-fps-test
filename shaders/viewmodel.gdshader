@@ -1,6 +1,6 @@
 shader_type spatial;
 
-uniform float viewmodel_fov = 50.0f;
+uniform float viewmodel_fov = 90.0f;
 uniform vec3 uv1_scale = vec3(1.0f);
 uniform vec3 uv1_offset = vec3(0.0f);
 uniform vec3 uv2_scale = vec3(1.0f);

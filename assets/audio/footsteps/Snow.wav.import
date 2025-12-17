@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://cl3rhh0c2vkjm"
-path="res://.godot/imported/Grass 1.wav-968a64bdf45184c789a0995bd5ab7d7e.sample"
+uid="uid://cr4pgkkxfv1s"
+path="res://.godot/imported/Snow.wav-c1626491744dfed06cdeb17decc91197.sample"
 
 [deps]
 
-source_file="res://assets/audio/Grass 1.wav"
-dest_files=["res://.godot/imported/Grass 1.wav-968a64bdf45184c789a0995bd5ab7d7e.sample"]
+source_file="res://assets/audio/footsteps/Snow.wav"
+dest_files=["res://.godot/imported/Snow.wav-c1626491744dfed06cdeb17decc91197.sample"]
 
 [params]
 

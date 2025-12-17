@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=4 format=3 uid="uid://8kgpth0k443b"]
+
+[ext_resource type="AudioStream" uid="uid://badxib5ch6kq4" path="res://assets/audio/weapons/pistol/pistol.wav" id="1_j6qyn"]
+[ext_resource type="Script" uid="uid://cyl4003numkyq" path="res://resources/scripts/weapon_resource.gd" id="1_q307d"]
+[ext_resource type="PackedScene" uid="uid://ufday6rijny" path="res://scenes/pistol.tscn" id="2_gyfhe"]
+
+[resource]
+script = ExtResource("1_q307d")
+weapon_model = ExtResource("2_gyfhe")
+damage = 10.0
+screen_recoil = 0.1
+rate_of_fire = 8.0
+movement_speed_modifier = 1.0
+fire_sound = ExtResource("1_j6qyn")
+metadata/_custom_type_script = "uid://cyl4003numkyq"
