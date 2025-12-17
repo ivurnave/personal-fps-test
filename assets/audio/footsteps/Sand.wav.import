@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://cr4pgkkxfv1s"
-path="res://.godot/imported/Snow.wav-6e7573002330b9d74546c76500cf1780.sample"
+uid="uid://cvlxg8beyq342"
+path="res://.godot/imported/Sand.wav-da05c545f576f7c241bef345fdbe3726.sample"
 
 [deps]
 
-source_file="res://assets/audio/Snow.wav"
-dest_files=["res://.godot/imported/Snow.wav-6e7573002330b9d74546c76500cf1780.sample"]
+source_file="res://assets/audio/footsteps/Sand.wav"
+dest_files=["res://.godot/imported/Sand.wav-da05c545f576f7c241bef345fdbe3726.sample"]
 
 [params]
 

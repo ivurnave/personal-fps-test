@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://coagyltfkaygr"
-path="res://.godot/imported/Gravel - Run.wav-7648e6b170cdad7347d84e0eb10d12e4.sample"
+path="res://.godot/imported/Gravel - Run.wav-e7e2b8117fe09b41d02d4d8d0fa3b9ff.sample"
 
 [deps]
 
-source_file="res://assets/audio/Gravel - Run.wav"
-dest_files=["res://.godot/imported/Gravel - Run.wav-7648e6b170cdad7347d84e0eb10d12e4.sample"]
+source_file="res://assets/audio/footsteps/Gravel - Run.wav"
+dest_files=["res://.godot/imported/Gravel - Run.wav-e7e2b8117fe09b41d02d4d8d0fa3b9ff.sample"]
 
 [params]
 

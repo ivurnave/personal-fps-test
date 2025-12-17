@@ -40,4 +40,4 @@ func calculate_posture(delta: float):
 	else:
 		current_height = min(current_height + (posture_change_speed * delta), stand_height)
 	$CollisionShape3D.shape.height = current_height
-	$CollisionShape3D/Body.mesh.height = current_height
+	#$CollisionShape3D/Body.mesh.height = current_height

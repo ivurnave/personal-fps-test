@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c4a62js1lytqy"
-path="res://.godot/imported/Forest 1.wav-f2219bc95021e505fa260ebd24c2a7ad.sample"
+path="res://.godot/imported/Forest 1.wav-5a755ac870132311c34566156a0fcd21.sample"
 
 [deps]
 
-source_file="res://assets/audio/Forest 1.wav"
-dest_files=["res://.godot/imported/Forest 1.wav-f2219bc95021e505fa260ebd24c2a7ad.sample"]
+source_file="res://assets/audio/footsteps/Forest 1.wav"
+dest_files=["res://.godot/imported/Forest 1.wav-5a755ac870132311c34566156a0fcd21.sample"]
 
 [params]
 
