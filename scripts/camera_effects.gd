@@ -10,15 +10,13 @@ extends Node3D
 ## Rate at which the current rotation lerps to the target rotation
 @export var snappiness := 10.0 
 
-# Recoil vectors
-@export var recoil : Vector3
-
 # Rotations
 var current_rotation : Vector3
 var target_rotation : Vector3
 
-var current_roll_z := 0.0
-var target_roll := 0.0
+# Positions
+var current_position : Vector3
+var target_position : Vector3
 
 ## Apply a rotational camera shake
 func shake(amount: float):
@@ -29,9 +27,20 @@ func _process(delta):
 	target_rotation = lerp(target_rotation, Vector3.ZERO, return_speed * delta)
 	current_rotation = lerp(current_rotation, target_rotation, snappiness * delta)
 	
+	target_position = lerp(target_position, Vector3.ZERO, return_speed * delta)
+	current_position = lerp(current_position, target_position, snappiness * delta)
+	
 	# Set rotation
 	rotation = current_rotation
+	position = current_position
 
-## TODO: Use the weapon resource to determine how much recoil to apply
-func _on_weapon_manager_weapon_fire(_weapon: WeaponResource) -> void:
-	target_rotation += Vector3(recoil.x, randf_range(-recoil.y, recoil.y), randf_range(-recoil.z, recoil.z))
+func _on_weapon_manager_weapon_fire(recoil: Vector2) -> void:
+	add_recoil(-recoil.y, -recoil.x)
+	add_screen_recoil(-0.2)
+
+func add_screen_recoil(amount: float):
+	target_position.z += amount
+
+func add_recoil(pitch: float, yaw: float) -> void:
+	target_rotation.x += pitch
+	target_rotation.y += yaw
