@@ -21,6 +21,8 @@ var default_rot : Vector3
 var target_pos : Vector3
 var target_rot : Vector3
 
+var view_model_shake_amount := 0.1
+
 func _ready():
 	default_pos = position
 	default_rot = rotation
@@ -68,7 +70,5 @@ func apply_offset_for_player_velocity() -> void:
 func is_player_moving() -> bool:
 	return player.velocity.length_squared() > 0.01 && player.is_on_floor()
 
-
-func _on_weapon_manager_weapon_fire(weapon: WeaponResource) -> void:
-	#position.x += sign(randf() - 0.5) * weapon.screen_recoil
-	position.z += weapon.screen_recoil
+func _on_weapon_manager_weapon_fire(_recoil: Vector2) -> void:
+	position.z += view_model_shake_amount

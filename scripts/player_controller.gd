@@ -15,7 +15,6 @@ class_name PlayerController extends CharacterBody3D
 @export var animation_controller : AnimationController
 @export var state_controller : StateController
 
-
 func _ready() -> void:
 	movement_controller.initialize(self)
 
@@ -41,3 +40,6 @@ func calculate_posture(delta: float):
 		current_height = min(current_height + (posture_change_speed * delta), stand_height)
 	$CollisionShape3D.shape.height = current_height
 	#$CollisionShape3D/Body.mesh.height = current_height
+
+func calculate_horizontal_speed():
+	return Vector2(velocity.x, velocity.z).length()

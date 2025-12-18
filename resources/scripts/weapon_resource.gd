@@ -10,6 +10,8 @@ extends Resource
 @export var rate_of_fire : float
 @export var movement_speed_modifier : float
 @export var fire_sound : AudioStream
+@export var recoil_pattern : Curve2D
+@export var recoil_cooldown_rate : float
 
 ## Give weapon resource access to weapon mananger
 var weapon_manager : WeaponManager
@@ -51,7 +53,6 @@ func try_fire():
 	return true
 
 func can_fire():
-	print('checking if weapon can fire')
 	if weapon_manager == null:
 		return false
 	var now := Time.get_ticks_msec() * 0.001
