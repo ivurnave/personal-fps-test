@@ -13,6 +13,8 @@ var was_on_floor : bool = false
 var pre_move_velocity : Vector3
 
 signal landed
+signal landed_loud
+signal landed_soft
 
 ## This could be better if we instead just connect the state to signals that are
 ## emitted from other controllers
@@ -35,11 +37,18 @@ func detect_current_state():
 	was_on_floor = on_floor
 	
 func on_landing(impact_velocity: Vector3):
-	if (abs(impact_velocity.y) > 15):
+	var impact = abs(impact_velocity.y)
+	if (impact > 15):
 		var max_fall_speed := 30.0
-		var strength: float = clamp(abs(impact_velocity.y) / max_fall_speed, 0.0, 1.0)
+		var strength: float = clamp(impact / max_fall_speed, 0.0, 1.0)
 		camera_effects_controller.shake(strength)
-	landed.emit(abs(impact_velocity.y) > 20)
+	
+	if impact > 20:
+		landed_loud.emit()
+	elif impact > 8:
+		landed_soft.emit()
+
+	landed.emit()
 
 func _physics_process(_delta: float) -> void:
 	detect_current_state()

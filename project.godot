@@ -13,13 +13,11 @@ config_version=5
 config/name="Personal FPS Test"
 run/main_scene="uid://cnn016244vni2"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://assets/icon.svg"
 
 [display]
 
 window/size/viewport_width=1080
 window/size/viewport_height=720
-window/size/mode=3
 window/size/borderless=true
 
 [editor_plugins]

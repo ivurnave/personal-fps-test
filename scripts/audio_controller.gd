@@ -8,7 +8,7 @@ extends Node
 @export var landing_soft : AudioStreamPlayer3D
 @export var step_speed_threshold := 4
 
-var step_frequency := 0.3
+var step_frequency := 0.4
 var step_timer := 0.0
 var min_wind_volume := -50.0
 var max_wind_volume := 0.0
@@ -16,7 +16,7 @@ var max_wind_volume := 0.0
 
 func _physics_process(delta: float) -> void:
 	var player_speed = player.velocity.length()
-	var player_horizontal_speed = Vector2(player.velocity.x, player.velocity.z).length()
+	var player_horizontal_speed = player.calculate_horizontal_speed()
 	if (player_horizontal_speed > step_speed_threshold && player.state_controller.current_state == 'grounded'):
 		# player is moving here
 		step_timer += delta
@@ -25,15 +25,14 @@ func _physics_process(delta: float) -> void:
 			step_audio_stream.play()
 			step_timer = 0.0
 	else:
-		step_timer = 0.0
-	
+		step_timer = max(0.0,step_timer - delta * 0.5)
 	if player_speed > 10:
 		wind_stream.volume_db = clampf(lerp(min_wind_volume, max_wind_volume, player_speed / 30), min_wind_volume, max_wind_volume)
 	else:
 		wind_stream.volume_db = min_wind_volume
 
-func _on_state_controller_landed(use_loud_landing: bool) -> void:
-	if (use_loud_landing):
-		landing_loud.play()
-	else:
-		landing_soft.play()
+func _on_state_controller_landed_loud() -> void:
+	landing_loud.play()
+
+func _on_state_controller_landed_soft() -> void:
+	landing_soft.play()

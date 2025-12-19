@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="WeaponResource" load_steps=5 format=3 uid="uid://c7en266na7enn"]
 
-[ext_resource type="AudioStream" uid="uid://c0n0eir3qbc3" path="res://assets/audio/weapons/rifle/rifle.wav" id="1_wq1u6"]
+[ext_resource type="AudioStream" uid="uid://buxkq52jmp4ld" path="res://assets/audio/weapons/rifle/laser_rifle.wav" id="1_wq1u6"]
 [ext_resource type="Curve2D" uid="uid://bwrkdo3ekpecf" path="res://resources/weapons/rifle/rifle_spray.tres" id="2_1h3wr"]
-[ext_resource type="Script" uid="uid://cyl4003numkyq" path="res://resources/scripts/weapon_resource.gd" id="3_ayjsh"]
-[ext_resource type="PackedScene" uid="uid://ufday6rijny" path="res://scenes/pistol.tscn" id="4_ud4vv"]
+[ext_resource type="Script" uid="uid://cyl4003numkyq" path="res://resources/weapons/weapon_resource.gd" id="3_ayjsh"]
+[ext_resource type="PackedScene" uid="uid://ufday6rijny" path="res://scenes/weapons/pistol.tscn" id="4_ud4vv"]
 
 [resource]
 script = ExtResource("3_ayjsh")
@@ -13,9 +13,9 @@ screen_recoil = 0.08
 is_automatic = true
 magazine_size = 25
 total_ammo = 75
-rate_of_fire = 10.0
+rate_of_fire = 8.0
 movement_speed_modifier = 1.0
 fire_sound = ExtResource("1_wq1u6")
 recoil_pattern = ExtResource("2_1h3wr")
-recoil_cooldown_rate = 20.0
+recoil_cooldown_rate = 15.0
 metadata/_custom_type_script = "uid://cyl4003numkyq"

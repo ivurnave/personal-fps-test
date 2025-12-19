@@ -51,7 +51,5 @@ func update(delta):
 	input_dir = get_input_direction()
 	wish_dir = get_wish_dir()
 	modes[state].update(delta)
-	
 	pre_move_velocity = player.velocity
-	
 	player.move_and_slide()

@@ -2,8 +2,8 @@
 
 [ext_resource type="AudioStream" uid="uid://badxib5ch6kq4" path="res://assets/audio/weapons/pistol/pistol.wav" id="1_t3tl8"]
 [ext_resource type="Curve2D" uid="uid://df4ce4b5fn1vo" path="res://resources/weapons/pistol/pistol_spray.tres" id="2_q8o8c"]
-[ext_resource type="Script" uid="uid://cyl4003numkyq" path="res://resources/scripts/weapon_resource.gd" id="3_3dcec"]
-[ext_resource type="PackedScene" uid="uid://ufday6rijny" path="res://scenes/pistol.tscn" id="4_sjgav"]
+[ext_resource type="Script" uid="uid://cyl4003numkyq" path="res://resources/weapons/weapon_resource.gd" id="3_3dcec"]
+[ext_resource type="PackedScene" uid="uid://ufday6rijny" path="res://scenes/weapons/pistol.tscn" id="4_sjgav"]
 
 [resource]
 script = ExtResource("3_3dcec")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvwssk52gx54l"]
+
+[ext_resource type="Texture2D" uid="uid://bma0skrmaupm" path="res://assets/textures/bullet_decal_debug.png" id="1_lgu06"]
+[ext_resource type="Script" uid="uid://cafqy47qrx4rf" path="res://scripts/weapons/bullet_decal_debug.gd" id="2_wlpk1"]
+
+[node name="BulletDecalDebug" type="Sprite3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+texture = ExtResource("1_lgu06")
+script = ExtResource("2_wlpk1")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
