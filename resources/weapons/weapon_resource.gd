@@ -2,6 +2,7 @@ class_name WeaponResource
 extends Resource
 
 @export var weapon_model : PackedScene
+@export var weapon_name : String
 @export var damage : float
 @export var screen_recoil : float
 @export var is_automatic : bool

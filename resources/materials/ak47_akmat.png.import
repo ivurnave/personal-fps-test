@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bl1ykts7o1ax1"
-path.s3tc="res://.godot/imported/pew_pewfinal_color.png-fc41ade305be93c69b36df66555d6b58.s3tc.ctex"
+uid="uid://bxkx17gf33qhv"
+path.s3tc="res://.godot/imported/ak47_akmat.png-2f41a2584f98d8b5040eb6c0a23cb936.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "21dc9f97e9057c7018b08f724904f0a2"
+"md5": "d905f38ec4ac852eb5ba8087f357aa28"
 }
 
 [deps]
 
-source_file="res://shaders/pew_pewfinal_color.png"
-dest_files=["res://.godot/imported/pew_pewfinal_color.png-fc41ade305be93c69b36df66555d6b58.s3tc.ctex"]
+source_file="res://resources/materials/ak47_akmat.png"
+dest_files=["res://.godot/imported/ak47_akmat.png-2f41a2584f98d8b5040eb6c0a23cb936.s3tc.ctex"]
 
 [params]
 
@@ -25,12 +25,12 @@ compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://ak47_akmat.png"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

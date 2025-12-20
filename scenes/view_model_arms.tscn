@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://dew64ulrvhumk"]
+[gd_scene load_steps=13 format=4 uid="uid://dew64ulrvhumk"]
 
 [ext_resource type="Script" uid="uid://bno500rk4764v" path="res://scripts/weapons/view_model_arms.gd" id="2_153s1"]
 
@@ -177,6 +177,38 @@ bind/48/pose = Transform3D(-0.07684579, 0.001922536, 0.9970411, -0.9961188, -0.0
 bind/49/name = &"DEF-f_pinky.03.R"
 bind/49/bone = -1
 bind/49/pose = Transform3D(-0.07693828, 0.0019112292, 0.99703395, -0.9924948, -0.09547811, -0.07640508, 0.09504893, -0.99542964, 0.009242807, 0.010535679, -0.90410453, 0.08484029)
+
+[sub_resource type="Animation" id="Animation_ivoua"]
+resource_name = "BringArmsDown"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1.1972959, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ew81f"]
+resource_name = "BringArmsUp"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.1955506, 0, 0), Vector3(0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_v5wik"]
 resource_name = "Fire"
@@ -1068,6 +1100,21 @@ tracks/62/interp = 1
 tracks/62/loop_wrap = true
 tracks/62/keys = PackedFloat32Array(0, 1, 0.3087648, 1.0762818e-05, 4.245347e-05, 0.95113844)
 
+[sub_resource type="Animation" id="Animation_rxoes"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_2yj3l"]
 resource_name = "ReloadMag"
 tracks/0/type = "position_3d"
@@ -1958,8 +2005,11 @@ tracks/62/keys = PackedFloat32Array(0, 1, 0.3087648, 1.0762818e-05, 4.245347e-05
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6vssx"]
 _data = {
+&"BringArmsDown": SubResource("Animation_ivoua"),
+&"BringArmsUp": SubResource("Animation_ew81f"),
 &"Fire": SubResource("Animation_v5wik"),
 &"Idle": SubResource("Animation_rlr4a"),
+&"RESET": SubResource("Animation_rxoes"),
 &"ReloadMag": SubResource("Animation_2yj3l"),
 &"ReloadTop": SubResource("Animation_3rwpa")
 }

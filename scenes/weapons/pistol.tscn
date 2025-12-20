@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=4 uid="uid://ufday6rijny"]
 
-[ext_resource type="Texture2D" uid="uid://bl1ykts7o1ax1" path="res://shaders/pew_pewfinal_color.png" id="1_igbvm"]
+[ext_resource type="Texture2D" uid="uid://bl1ykts7o1ax1" path="res://resources/materials/pew_pewfinal_color.png" id="1_igbvm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jr7d6"]
 resource_name = "pewfinal"

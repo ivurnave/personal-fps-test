@@ -3,17 +3,21 @@ extends Node
 
 @export var player : PlayerController
 @export var mouse_capture: MouseCaptureComponent
-@export var current_weapon : WeaponResource
 @export var view_model : ViewModelArms
 @export var camera : Camera3D
 @export var weapon_audio_emitter : AudioStreamPlayer3D
-@export var bullet_tracer_scene : PackedScene
+
+@export var slot_1_weapon : WeaponResource
+@export var slot_2_weapon : WeaponResource
+@export var slot_3_weapon : WeaponResource
 
 @onready var debug_bullet = preload("res://scenes/weapons/bullet_decal_debug.tscn")
+@onready var bullet_tracer = preload("res://scenes/weapons/bullet_tracer.tscn") 
 
 ## In order to keep ammo/rate of fire unique to each weapon, the weapon
 ## instance must be unique
 var current_weapon_instance : WeaponResource
+var weapon_instances_dictionary : Dictionary[String,WeaponResource] = {}
 var current_weapon_model : Node3D
 var recoil_pattern_scale := 0.0005
 var heat := 0.0 ## Keep track of the heat of the current weapon
@@ -21,11 +25,26 @@ var heat := 0.0 ## Keep track of the heat of the current weapon
 signal weapon_fire
 
 func _ready() -> void:
-	current_weapon_instance = current_weapon.duplicate(true)
+	instantiate_weapons_dictionary()
+	equip_first_available_weapon()
 	current_weapon_model = current_weapon_instance.weapon_model.instantiate()
 	current_weapon_instance.weapon_manager = self
 	view_model.weapon_slot.add_child(current_weapon_model)
 	weapon_audio_emitter.stream = current_weapon_instance.fire_sound
+
+func instantiate_weapons_dictionary():
+	if slot_1_weapon:
+		weapon_instances_dictionary["slot1"] = slot_1_weapon.duplicate(true)
+	if slot_2_weapon:
+		weapon_instances_dictionary["slot2"] = slot_2_weapon.duplicate(true)
+	if slot_3_weapon:
+		weapon_instances_dictionary["slot3"] = slot_3_weapon.duplicate(true)
+	
+	for weapon in weapon_instances_dictionary:
+		weapon_instances_dictionary[weapon].weapon_manager = self
+
+func equip_first_available_weapon():
+	current_weapon_instance = weapon_instances_dictionary.get("slot1")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if mouse_capture._capture_mouse:
@@ -33,15 +52,26 @@ func _unhandled_input(event: InputEvent) -> void:
 			current_weapon_instance.trigger_down = true
 		if event.is_action_released("fire"):
 			current_weapon_instance.trigger_down = false
+		if event.is_action_pressed("slot1"): try_equip_slot("slot1")
+		if event.is_action_pressed("slot2"): try_equip_slot("slot2")
+		if event.is_action_pressed("slot3"): try_equip_slot("slot3")
+
+func try_equip_slot(slot: String):
+	if weapon_instances_dictionary.get(slot):
+		current_weapon_model.queue_free()
+		current_weapon_instance = weapon_instances_dictionary[slot]
+		current_weapon_model = current_weapon_instance.weapon_model.instantiate()
+		view_model.weapon_slot.add_child(current_weapon_model)
+		weapon_audio_emitter.stream = current_weapon_instance.fire_sound
 
 func _process(delta: float) -> void:
 	if current_weapon_instance.is_automatic && current_weapon_instance.trigger_down:
 		current_weapon_instance.try_fire()
-	if !current_weapon_instance.trigger_down && !current_weapon.can_fire():
+	if !current_weapon_instance.trigger_down && current_weapon_instance.can_fire():
 		heat = max(0.0, heat - delta * current_weapon_instance.recoil_cooldown_rate)
 
-
 func fire() -> void:
+	print('fire')
 	if current_weapon_instance:
 		weapon_audio_emitter.play() # play sound
 		var recoil = get_current_recoil_and_update_heat()
@@ -127,13 +157,15 @@ func make_bullet_trail(target_position: Vector3) -> void:
 	var start_position = muzzle_node.global_position
 	var minimum_path_length := 3.0 ## Don't show tracers if the path to target is less than this!
 	if (target_position - start_position).length() > minimum_path_length:
-		var bullet_tracer : BulletTracer = bullet_tracer_scene.instantiate()
-		add_sibling(bullet_tracer)
-		bullet_tracer.global_position = start_position
-		bullet_tracer.target_position = target_position
-		bullet_tracer.look_at(target_position)
+		var bullet_tracer_instance : BulletTracer = bullet_tracer.instantiate()
+		add_sibling(bullet_tracer_instance)
+		bullet_tracer_instance.global_position = start_position
+		bullet_tracer_instance.target_position = target_position
+		bullet_tracer_instance.look_at(target_position)
 
 func make_bullet_decal(target_position: Vector3, target_normal: Vector3) -> void:
+	if !target_position || !target_normal:
+		return
 	var decal_instance : BulletDecalDebug = debug_bullet.instantiate()
 	var world = get_tree().get_root()
 	var offset_from_face = 0.01

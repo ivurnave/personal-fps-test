@@ -8,6 +8,7 @@
 [resource]
 script = ExtResource("3_3dcec")
 weapon_model = ExtResource("4_sjgav")
+weapon_name = "pistol"
 damage = 10.0
 screen_recoil = 0.1
 magazine_size = 12

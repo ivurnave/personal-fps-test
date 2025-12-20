@@ -3,11 +3,12 @@
 [ext_resource type="AudioStream" uid="uid://buxkq52jmp4ld" path="res://assets/audio/weapons/rifle/laser_rifle.wav" id="1_wq1u6"]
 [ext_resource type="Curve2D" uid="uid://bwrkdo3ekpecf" path="res://resources/weapons/rifle/rifle_spray.tres" id="2_1h3wr"]
 [ext_resource type="Script" uid="uid://cyl4003numkyq" path="res://resources/weapons/weapon_resource.gd" id="3_ayjsh"]
-[ext_resource type="PackedScene" uid="uid://ufday6rijny" path="res://scenes/weapons/pistol.tscn" id="4_ud4vv"]
+[ext_resource type="PackedScene" uid="uid://c1ihp1okdu4xw" path="res://scenes/weapons/rifle.tscn" id="4_wq1u6"]
 
 [resource]
 script = ExtResource("3_ayjsh")
-weapon_model = ExtResource("4_ud4vv")
+weapon_model = ExtResource("4_wq1u6")
+weapon_name = "rifle"
 damage = 10.0
 screen_recoil = 0.08
 is_automatic = true
