@@ -27,6 +27,7 @@ section_length = 1.0
 section_segments = 1
 
 [node name="BulletTracer" type="Node3D"]
+top_level = true
 script = ExtResource("1_dk6yj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

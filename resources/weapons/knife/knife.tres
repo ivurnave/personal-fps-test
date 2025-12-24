@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=3 format=3 uid="uid://gq2a8gpsch4m"]
+
+[ext_resource type="AudioStream" uid="uid://igs0poeay08d" path="res://assets/audio/weapons/knife/Blade Slash Short 01.wav" id="1_bqyno"]
+[ext_resource type="Script" uid="uid://dpdirjjjtweg6" path="res://resources/weapons/weapon_resource.gd" id="1_rtrq4"]
+
+[resource]
+script = ExtResource("1_rtrq4")
+weapon_name = "knife"
+weapon_slot = "slot3"
+damage = 50.0
+is_automatic = true
+is_knife = true
+is_droppable = false
+total_ammo = 1
+rate_of_fire = 0.9
+movement_speed_modifier = 1.0
+fire_sound = ExtResource("1_bqyno")
+recoil_cooldown_rate = 30.0
+metadata/_custom_type_script = "uid://dpdirjjjtweg6"

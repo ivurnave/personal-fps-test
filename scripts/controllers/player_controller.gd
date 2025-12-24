@@ -14,6 +14,7 @@ class_name PlayerController extends CharacterBody3D
 @export var movement_controller : MovementController
 @export var animation_controller : AnimationController
 @export var state_controller : StateController
+@export var weapon_manager : WeaponManager
 
 func _ready() -> void:
 	movement_controller.initialize(self)

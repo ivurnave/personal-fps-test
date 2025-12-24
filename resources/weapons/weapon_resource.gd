@@ -1,11 +1,12 @@
 class_name WeaponResource
 extends Resource
 
-@export var weapon_model : PackedScene
 @export var weapon_name : String
+@export_enum("slot1", "slot2", "slot3") var weapon_slot : String
 @export var damage : float
-@export var screen_recoil : float
 @export var is_automatic : bool
+@export var is_knife := false
+@export var is_droppable := true
 @export var magazine_size : int
 @export var total_ammo : int
 @export var rate_of_fire : float
@@ -13,31 +14,25 @@ extends Resource
 @export var fire_sound : AudioStream
 @export var recoil_pattern : Curve2D
 @export var recoil_cooldown_rate : float
+@export var bullet_tracer : PackedScene
 
-## Give weapon resource access to weapon mananger
-var weapon_manager : WeaponManager
-
-## Weapon logic
+## Weapon / state
 var last_fire_time : float
 var ammo_in_magazine : int
-
-var trigger_down := false:
+var is_trigger_down := false:
 	set(val):
-		if trigger_down != val:
-			trigger_down = val
-		if trigger_down:
+		if is_trigger_down != val:
+			is_trigger_down = val
+		if is_trigger_down:
 			on_trigger_down()
 		else:
 			on_trigger_up()
 
-var is_equipped := false:
-	set(val):
-		if is_equipped != val:
-			is_equipped = val
-		if is_equipped:
-			on_equip()
-		else:
-			on_unequip()
+var is_equipped := false
+var is_equipping := false
+var is_reloading := false
+
+signal weapon_fired
 
 func on_trigger_down():
 	try_fire()
@@ -45,16 +40,22 @@ func on_trigger_down():
 func on_trigger_up():
 	pass
 
+## Recoil logic
+func get_spray_recoil_for_heat(heat: float):
+	if recoil_pattern:
+		return recoil_pattern.get_point_position(int(heat) % recoil_pattern.point_count)
+	return Vector2()
+
+## Firing Logic
 func try_fire():
 	if !can_fire():
 		return false
-
+	weapon_fired.emit()
 	last_fire_time = Time.get_ticks_msec() * 0.001
-	weapon_manager.fire()
 	return true
 
 func can_fire():
-	if weapon_manager == null:
+	if is_reloading || is_equipping:
 		return false
 	var now := Time.get_ticks_msec() * 0.001
 	var fire_interval := 1.0 / rate_of_fire
@@ -65,9 +66,3 @@ func can_fire():
 	#if ammo_in_magazine <= 0:
 		#return false
 	return true
-
-func on_equip():
-	pass
-
-func on_unequip():
-	pass

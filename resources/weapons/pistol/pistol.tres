@@ -1,21 +1,20 @@
-[gd_resource type="Resource" script_class="WeaponResource" load_steps=5 format=3 uid="uid://8kgpth0k443b"]
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=4 format=3 uid="uid://puihkbxmh6cc"]
 
-[ext_resource type="AudioStream" uid="uid://badxib5ch6kq4" path="res://assets/audio/weapons/pistol/pistol.wav" id="1_t3tl8"]
-[ext_resource type="Curve2D" uid="uid://df4ce4b5fn1vo" path="res://resources/weapons/pistol/pistol_spray.tres" id="2_q8o8c"]
-[ext_resource type="Script" uid="uid://cyl4003numkyq" path="res://resources/weapons/weapon_resource.gd" id="3_3dcec"]
-[ext_resource type="PackedScene" uid="uid://ufday6rijny" path="res://scenes/weapons/pistol.tscn" id="4_sjgav"]
+[ext_resource type="AudioStream" uid="uid://badxib5ch6kq4" path="res://assets/audio/weapons/pistol/pistol.wav" id="1_4sh0e"]
+[ext_resource type="PackedScene" uid="uid://c21lkxhq5spuu" path="res://scenes/weapons/bullet_tracer.tscn" id="1_t3tl8"]
+[ext_resource type="Script" uid="uid://dpdirjjjtweg6" path="res://resources/weapons/weapon_resource.gd" id="1_vrihs"]
 
 [resource]
-script = ExtResource("3_3dcec")
-weapon_model = ExtResource("4_sjgav")
+resource_local_to_scene = true
+script = ExtResource("1_vrihs")
 weapon_name = "pistol"
-damage = 10.0
-screen_recoil = 0.1
+weapon_slot = "slot2"
+damage = 8.0
 magazine_size = 12
-total_ammo = 36
+total_ammo = 24
 rate_of_fire = 8.0
 movement_speed_modifier = 1.0
-fire_sound = ExtResource("1_t3tl8")
-recoil_pattern = ExtResource("2_q8o8c")
+fire_sound = ExtResource("1_4sh0e")
 recoil_cooldown_rate = 5.0
-metadata/_custom_type_script = "uid://cyl4003numkyq"
+bullet_tracer = ExtResource("1_t3tl8")
+metadata/_custom_type_script = "uid://dpdirjjjtweg6"

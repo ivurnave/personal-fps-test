@@ -2374,6 +2374,7 @@ bones/49/rotation = Quaternion(0.30876467, 1.072541e-05, 4.241168e-05, 0.9511384
 bones/49/scale = Vector3(1, 1, 1)
 
 [node name="arms" type="MeshInstance3D" parent="Rig/Skeleton3D"]
+visible = false
 layers = 2
 cast_shadow = 0
 mesh = SubResource("ArrayMesh_2jrwn")
@@ -2385,7 +2386,7 @@ bone_name = "DEF-hand.R"
 bone_idx = 30
 
 [node name="WeaponSlot" type="Node3D" parent="Rig/Skeleton3D/BoneAttachment3D"]
-transform = Transform3D(-0.99415886, 0.1038052, 0.029545737, 0.04349633, 0.13481537, 0.9899164, 0.098775245, 0.9854186, -0.13854301, -0.032318264, 0.07470244, 0.013193503)
+transform = Transform3D(-0.9913057, 0.12534952, 0.04001951, 0.05921885, 0.15340522, 0.9863883, 0.11750405, 0.9801814, -0.1594944, -0.03351961, 0.07477391, 0.013335943)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

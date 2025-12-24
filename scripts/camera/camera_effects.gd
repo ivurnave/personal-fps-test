@@ -34,7 +34,8 @@ func _process(delta):
 	rotation = current_rotation
 	position = current_position
 
-func _on_weapon_manager_weapon_fire(recoil: Vector2) -> void:
+## Called via the weapon "fired" signal
+func on_weapon_fired(recoil: Vector2):
 	add_recoil(-recoil.y, -recoil.x)
 	add_screen_recoil(-0.2)
 

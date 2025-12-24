@@ -1,0 +1,135 @@
+[gd_scene load_steps=10 format=3 uid="uid://vqrhsh80tgw8"]
+
+[ext_resource type="PackedScene" uid="uid://q55qteqsiijb" path="res://scenes/test_dummy.tscn" id="1_c6vbd"]
+[ext_resource type="Material" uid="uid://b1m31hn3ed7c0" path="res://resources/materials/grid_material.tres" id="1_ja5ud"]
+[ext_resource type="PackedScene" uid="uid://drvfgid71y2jh" path="res://scenes/player.tscn" id="3_c6vbd"]
+[ext_resource type="PackedScene" uid="uid://cmjj2dfgh8lqy" path="res://scenes/enemy.tscn" id="4_wswn3"]
+[ext_resource type="PackedScene" uid="uid://cl73w68li2726" path="res://scenes/weapons/pistol_drop.tscn" id="5_rudqt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
+size = Vector3(30, 1, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
+size = Vector3(30, 1, 30)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 1
+background_color = Color(0.83756435, 0.525249, 0.45322728, 1)
+sky = SubResource("Sky_0xm2m")
+ambient_light_source = 2
+ambient_light_color = Color(0.5057936, 0.40608752, 0.7869025, 1)
+fog_enabled = true
+
+[node name="World" type="Node"]
+
+[node name="Dummies" type="Node" parent="."]
+
+[node name="TestDummy" parent="Dummies" instance=ExtResource("1_c6vbd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.32992, 10.10522, -12.767136)
+
+[node name="TestDummy2" parent="Dummies" instance=ExtResource("1_c6vbd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.313459, 9.937051, -12.902714)
+
+[node name="TestDummy3" parent="Dummies" instance=ExtResource("1_c6vbd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.320961, 9.768882, -13.038292)
+
+[node name="TestDummy4" parent="Dummies" instance=ExtResource("1_c6vbd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3045006, 9.600713, -13.17387)
+
+[node name="Enemy" parent="Dummies" instance=ExtResource("4_wswn3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.362021, 6.4405503, -2.2167282)
+
+[node name="Enemy2" parent="Dummies" instance=ExtResource("4_wswn3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.206533, 6.642322, -2.2167282)
+
+[node name="Enemy3" parent="Dummies" instance=ExtResource("4_wswn3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.543246, 6.7322783, -2.2167282)
+
+[node name="Player" parent="." instance=ExtResource("3_c6vbd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.797778, 9.499998, -11.484425)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_7dm0k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_ig7tw")
+surface_material_override/0 = ExtResource("1_ja5ud")
+
+[node name="WeaponDrop" parent="Floor" instance=ExtResource("5_rudqt")]
+transform = Transform3D(1, 0, 0, 0, 0.96645236, -0.25684604, 0, 0.25684604, 0.96645236, -5.9725237, 11.602672, -12.46718)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.9659258, 0, -0.9659258, 0.258819, 0, 11, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h2yge")
+
+[node name="LevelGeometry" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+use_collision = true
+size = Vector3(1, 20, 31)
+material = ExtResource("1_ja5ud")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+material_override = ExtResource("1_ja5ud")
+use_collision = true
+size = Vector3(1, 20, 31)
+material = ExtResource("1_ja5ud")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 15)
+use_collision = true
+size = Vector3(1, 20, 31)
+material = ExtResource("1_ja5ud")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(2.9802322e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, 2.9802322e-08, 9.536743e-07, 0, -15)
+use_collision = true
+size = Vector3(1, 20, 31)
+material = ExtResource("1_ja5ud")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.632336, 1.5, -10.525935)
+use_collision = true
+polygon = PackedVector2Array(-4.3, -1.5, 0, 1, 5, 1, 5.6, -1.5)
+depth = 4.8
+material = ExtResource("1_ja5ud")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 9, -12.5)
+size = Vector3(9, 1, 4)
+material = ExtResource("1_ja5ud")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 5, -2)
+size = Vector3(9, 1, 4)
+material = ExtResource("1_ja5ud")
+
+[node name="CSGPolygon3D2" type="CSGPolygon3D" parent="LevelGeometry"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -12.964051, 8, -6.0518703)
+use_collision = true
+polygon = PackedVector2Array(-2.044241, -3.497342, -2.0517092, -2.5010176, 4.4504156, 1.4920464, 4.5339775, 0.6724796)
+depth = 2.05
+material = ExtResource("1_ja5ud")
+
+[node name="CSGPolygon3D3" type="CSGPolygon3D" parent="LevelGeometry"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -13.015921, 4, 4.465821)
+use_collision = true
+polygon = PackedVector2Array(-2.044241, -3.497342, -2.0517092, -2.5010176, 4.4504156, 1.4920464, 4.5339775, 0.6724796)
+depth = 2.05
+material = ExtResource("1_ja5ud")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.6491699, 8.504095)
+size = Vector3(9, 1.7016602, 4)
+material = ExtResource("1_ja5ud")

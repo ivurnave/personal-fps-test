@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3f0hwefcst5s"
-path.s3tc="res://.godot/imported/ak47_akmat_1.png-b15ec06fb97f95c837dda1de76ab6d9c.s3tc.ctex"
+uid="uid://dd4gf7rosngnd"
+path.s3tc="res://.godot/imported/Kunai_0.png-fe92b9fae41aee77420d4d882a11367c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "fe95ba70898b55b9bb26cf83aa3c0341"
+"md5": "d8dbabf661ed122c9c0f96bc6d10680f"
 }
 
 [deps]
 
-source_file="res://resources/materials/ak47_akmat_1.png"
-dest_files=["res://.godot/imported/ak47_akmat_1.png-b15ec06fb97f95c837dda1de76ab6d9c.s3tc.ctex"]
+source_file="res://assets/textures/Kunai_0.png"
+dest_files=["res://.godot/imported/Kunai_0.png-fe92b9fae41aee77420d4d882a11367c.s3tc.ctex"]
 
 [params]
 

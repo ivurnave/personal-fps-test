@@ -1,14 +1,23 @@
-[gd_scene load_steps=12 format=4 uid="uid://c1ihp1okdu4xw"]
+[gd_scene load_steps=24 format=4 uid="uid://3d8tgcsw6f7v"]
 
-[ext_resource type="Texture2D" uid="uid://d3f0hwefcst5s" path="res://resources/materials/ak47_akmat_1.png" id="1_hkhc6"]
-[ext_resource type="Texture2D" uid="uid://bxkx17gf33qhv" path="res://resources/materials/ak47_akmat.png" id="2_sg1yr"]
+[ext_resource type="Script" uid="uid://d12n38ddmrt43" path="res://scripts/weapon_logic/weapon.gd" id="1_fgtco"]
+[ext_resource type="Resource" uid="uid://cncxgh3vjflhf" path="res://resources/weapons/rifle/rifle.tres" id="2_hg8sd"]
+[ext_resource type="Texture2D" uid="uid://d3f0hwefcst5s" path="res://assets/textures/ak47_akmat_1.png" id="4_c4mnj"]
+[ext_resource type="Texture2D" uid="uid://bxkx17gf33qhv" path="res://assets/textures/ak47_akmat.png" id="5_0m8di"]
+[ext_resource type="Script" uid="uid://igpf4e45nmfw" path="res://scripts/weapon_logic/hitscan.gd" id="6_rverj"]
+[ext_resource type="Script" uid="uid://bw0chvij6jixf" path="res://scripts/weapon_logic/recoil_controller.gd" id="7_36ty6"]
+[ext_resource type="AudioStream" uid="uid://qigqohh8trbn" path="res://assets/audio/weapons/rifle/equip.wav" id="8_hg8sd"]
+[ext_resource type="AudioStream" uid="uid://b5avsqfs3xs2s" path="res://assets/audio/weapons/rifle/reload.wav" id="9_fp400"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k631g"]
+size = Vector3(0.08251953, 0.24047852, 0.7553711)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n46pf"]
 resource_name = "akmat"
 cull_mode = 2
-albedo_texture = ExtResource("1_hkhc6")
+albedo_texture = ExtResource("4_c4mnj")
 normal_enabled = true
-normal_texture = ExtResource("2_sg1yr")
+normal_texture = ExtResource("5_0m8di")
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_7fho1"]
 _surfaces = [{
@@ -25,7 +34,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_44i6k"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_ramjj"]
 resource_name = "ak47_Cube_106"
 _surfaces = [{
 "aabb": AABB(-0.06702014, -0.09886903, -0.012643719, 0.54380107, 0.16821255, 0.025287438),
@@ -59,7 +68,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_gmeww"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_xgpw4"]
 resource_name = "ak47_Cube_105"
 _surfaces = [{
 "aabb": AABB(-0.26624382, -0.07607442, -0.011142893, 0.20495245, 0.10108489, 0.022285786),
@@ -93,7 +102,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_pxfv3"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_2tlcq"]
 resource_name = "ak47_Cube_095"
 _surfaces = [{
 "aabb": AABB(0.064965144, -0.15625873, -0.011300946, 0.11981785, 0.15097627, 0.022601891),
@@ -127,7 +136,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ja76w"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_pjjpt"]
 resource_name = "ak47_Cube_110"
 _surfaces = [{
 "aabb": AABB(-0.007352882, -0.012426921, -0.0022631583, 0.014705764, 0.024853842, 0.0045263167),
@@ -146,25 +155,226 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_xv3mj")
 
-[node name="Rifle" type="Node3D"]
+[sub_resource type="Animation" id="Animation_fp400"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ak47:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5707964, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ak47:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.0017017052, 0.05306831, -0.09905134)]
+}
+
+[sub_resource type="Animation" id="Animation_c4mnj"]
+resource_name = "equip"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ak47:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.53333336, 0.6666667, 0.73333335, 1),
+"transitions": PackedFloat32Array(0.36602142, 0.36602142, 1, 1.4142138, 1.4142138),
+"update": 0,
+"values": [Vector3(-0.0017017052, -0.22476254, -0.07647751), Vector3(-0.0017017052, 0.015790746, 0.0680953), Vector3(-0.015534772, 0.02669287, 0.031735748), Vector3(-0.0017017052, 0.015790746, 0.0680953), Vector3(-0.0017017052, 0.05306831, -0.09905134)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ak47:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.53333336, 0.6666667, 0.73333335, 1),
+"transitions": PackedFloat32Array(0.36602142, 0.36602142, 1, 1.4142138, 1.4142138),
+"update": 0,
+"values": [Vector3(-3.4575212e-08, -1.5707964, -0.9124232), Vector3(-0.8063421, -0.6981317, -0.3996804), Vector3(-0.8063421, -0.6981317, -0.3996804), Vector3(-0.8063421, -0.6981317, -0.3996804), Vector3(0, -1.5707964, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"on_weapon_start_equip"
+}, {
+"args": [],
+"method": &"on_weapon_equipped"
+}]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("EquipSound")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("8_hg8sd")
+}],
+"times": PackedFloat32Array(0.53333336)
+}
+tracks/3/use_blend = true
+
+[sub_resource type="Animation" id="Animation_fgtco"]
+resource_name = "fire"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ak47:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(2.7477067e-09, -1.5707964, 0.06290167), Vector3(0, -1.5707964, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ak47:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.0017017052, 0.05306831, -0.153012), Vector3(-0.0017017052, 0.05306831, -0.09905134)]
+}
+
+[sub_resource type="Animation" id="Animation_hg8sd"]
+resource_name = "reload"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ak47:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8137051, 0.9284584, 1.0080032, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.0017017052, 0.05306831, -0.09905134), Vector3(-0.0017017052, 0.14631593, -0.09905134), Vector3(-0.0017017052, 0.09259266, -0.09905134), Vector3(-0.0017017052, 0.14631593, -0.09905134), Vector3(-0.0017017052, 0.05306831, -0.09905134)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ak47:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8137051, 1.0080032, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5707964, 0), Vector3(2.7280183e-08, -1.5707964, 0.67397636), Vector3(2.7280183e-08, -1.5707964, 0.67397636), Vector3(0, -1.5707964, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"on_reload_end"
+}]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("EquipSound")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("9_fp400")
+}],
+"times": PackedFloat32Array(0.76666665)
+}
+tracks/3/use_blend = true
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fp400"]
+_data = {
+&"RESET": SubResource("Animation_fp400"),
+&"equip": SubResource("Animation_c4mnj"),
+&"fire": SubResource("Animation_fgtco"),
+&"reload": SubResource("Animation_hg8sd")
+}
+
+[node name="Weapon" type="CollisionShape3D"]
+shape = SubResource("BoxShape3D_k631g")
+script = ExtResource("1_fgtco")
+weapon_resource = ExtResource("2_hg8sd")
+metadata/_custom_type_script = "uid://d12n38ddmrt43"
 
 [node name="ak47" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.0017017052, 0.05306831, -0.09905134)
-mesh = SubResource("ArrayMesh_44i6k")
+transform = Transform3D(-4.371138e-08, 0, -0.9999998, 0, 1.0000001, 0, 0.9999998, 0, -4.371138e-08, -0.0017017052, 0.05306831, -0.09905134)
+mesh = SubResource("ArrayMesh_ramjj")
 skeleton = NodePath("")
 
 [node name="akderriere_low" type="MeshInstance3D" parent="ak47"]
-mesh = SubResource("ArrayMesh_gmeww")
+mesh = SubResource("ArrayMesh_xgpw4")
 skeleton = NodePath("")
 
 [node name="akmagazine_low" type="MeshInstance3D" parent="ak47"]
-mesh = SubResource("ArrayMesh_pxfv3")
+mesh = SubResource("ArrayMesh_2tlcq")
 skeleton = NodePath("")
 
 [node name="aktrigger_low" type="MeshInstance3D" parent="ak47"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.014824867, -0.022621483, 0)
-mesh = SubResource("ArrayMesh_ja76w")
+mesh = SubResource("ArrayMesh_pjjpt")
 skeleton = NodePath("")
 
 [node name="Muzzle" type="Node3D" parent="."]
 transform = Transform3D(-0.9999888, -0.0047298176, 0, 0.0047298176, -0.9999888, 0, 0, 0, 1, -0.023108438, 0.048966113, 0.45854077)
+
+[node name="Hitscan" type="Node3D" parent="."]
+script = ExtResource("6_rverj")
+
+[node name="RecoilController" type="Node3D" parent="."]
+script = ExtResource("7_36ty6")
+
+[node name="FireSound" type="AudioStreamPlayer3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_fp400")
+}
+
+[node name="ReloadSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("9_fp400")
+
+[node name="EquipSound" type="AudioStreamPlayer3D" parent="."]

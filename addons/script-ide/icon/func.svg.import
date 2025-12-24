@@ -2,16 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xdyg5tgouppb"
-path="res://.godot/imported/spray-pattern-reference.png-c624851c849f2c9ecef25689171d9a9a.ctex"
+uid="uid://rni04cl446ov"
+path="res://.godot/imported/func.svg-139842caa5b4b7e4839711b6c756d0f7.ctex"
 metadata={
+"has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://spray-pattern-reference.png"
-dest_files=["res://.godot/imported/spray-pattern-reference.png-c624851c849f2c9ecef25689171d9a9a.ctex"]
+source_file="res://addons/script-ide/icon/func.svg"
+dest_files=["res://.godot/imported/func.svg-139842caa5b4b7e4839711b6c756d0f7.ctex"]
 
 [params]
 
@@ -38,3 +39,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=true
+editor/convert_colors_with_editor_theme=false

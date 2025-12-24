@@ -1,0 +1,105 @@
+[gd_scene load_steps=11 format=3 uid="uid://q55qteqsiijb"]
+
+[ext_resource type="Script" uid="uid://ba500q6ptq6yv" path="res://scripts/hurtbox.gd" id="1_jmmpe"]
+
+[sub_resource type="GDScript" id="GDScript_u04uy"]
+script/source = "extends CharacterBody3D
+
+var health = 100
+@onready var progress_bar = $HitHead/Head/HealthBar/Sprite3D/SubViewport/ProgressBar
+
+func _ready() -> void:
+	progress_bar.max_value = health
+	progress_bar.value = health
+
+func _physics_process(delta: float) -> void:
+	if !is_on_floor():
+		velocity += get_gravity() * delta
+	else: velocity = Vector3.ZERO
+	move_and_slide()
+
+func on_hit(damage: int) -> void:
+	health -= damage
+	progress_bar.value = health
+	if health <= 0:
+		queue_free()
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jmmpe"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u04uy"]
+radius = 0.51
+height = 1.51
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p43bn"]
+albedo_color = Color(0.118590854, 0.2343466, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_u04uy"]
+material = SubResource("StandardMaterial3D_p43bn")
+height = 1.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_p43bn"]
+radius = 0.26
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gionw"]
+albedo_color = Color(0, 0.46009356, 0.72338104, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_gionw"]
+material = SubResource("StandardMaterial3D_gionw")
+radius = 0.25
+height = 0.5
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_jmmpe"]
+viewport_path = NodePath("HitHead/Head/HealthBar/Sprite3D/SubViewport")
+
+[node name="TestDummy" type="CharacterBody3D"]
+collision_layer = 2
+script = SubResource("GDScript_u04uy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_jmmpe")
+
+[node name="HitBody" type="Area3D" parent="." node_paths=PackedStringArray("owner_enemy")]
+collision_layer = 5
+script = ExtResource("1_jmmpe")
+owner_enemy = NodePath("..")
+metadata/_custom_type_script = "uid://ba500q6ptq6yv"
+
+[node name="BodyCollider" type="CollisionShape3D" parent="HitBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("CapsuleShape3D_u04uy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HitBody/BodyCollider"]
+mesh = SubResource("CapsuleMesh_u04uy")
+skeleton = NodePath("../../..")
+
+[node name="HitHead" type="Area3D" parent="." node_paths=PackedStringArray("owner_enemy")]
+collision_layer = 5
+collision_mask = 0
+script = ExtResource("1_jmmpe")
+owner_enemy = NodePath("..")
+type = 0
+metadata/_custom_type_script = "uid://ba500q6ptq6yv"
+
+[node name="Head" type="CollisionShape3D" parent="HitHead"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("SphereShape3D_p43bn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HitHead/Head"]
+mesh = SubResource("SphereMesh_gionw")
+
+[node name="HealthBar" type="Node3D" parent="HitHead/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5721116, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="HitHead/Head/HealthBar"]
+billboard = 1
+texture = SubResource("ViewportTexture_jmmpe")
+
+[node name="SubViewport" type="SubViewport" parent="HitHead/Head/HealthBar/Sprite3D"]
+transparent_bg = true
+size = Vector2i(200, 30)
+
+[node name="ProgressBar" type="ProgressBar" parent="HitHead/Head/HealthBar/Sprite3D/SubViewport"]
+offset_right = 200.0
+offset_bottom = 30.0

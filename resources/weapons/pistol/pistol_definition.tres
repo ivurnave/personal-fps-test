@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WeaponDefinition" load_steps=4 format=3 uid="uid://6j8gn0yk6drp"]
+
+[ext_resource type="Script" uid="uid://dh3pfmj7ughg1" path="res://resources/weapons/weapon_definition.gd" id="1_kyeeo"]
+[ext_resource type="PackedScene" uid="uid://cl73w68li2726" path="res://scenes/weapons/pistol_drop.tscn" id="2_p4qne"]
+[ext_resource type="PackedScene" uid="uid://5nliifnhy1al" path="res://scenes/weapons/pistol.tscn" id="3_jgjiy"]
+
+[resource]
+script = ExtResource("1_kyeeo")
+weapon_scene = ExtResource("3_jgjiy")
+weapon_drop_scene = ExtResource("2_p4qne")
+metadata/_custom_type_script = "uid://dh3pfmj7ughg1"
