@@ -35,7 +35,7 @@ func _process(delta):
 	position = current_position
 
 ## Called via the weapon "fired" signal
-func on_weapon_fired(recoil: Vector2):
+func on_weapon_recoil(recoil: Vector2):
 	add_recoil(-recoil.y, -recoil.x)
 	add_screen_recoil(-0.2)
 

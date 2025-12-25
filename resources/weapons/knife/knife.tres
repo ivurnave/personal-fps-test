@@ -11,6 +11,7 @@ damage = 50.0
 is_automatic = true
 is_knife = true
 is_droppable = false
+magazine_size = 1
 total_ammo = 1
 rate_of_fire = 0.9
 movement_speed_modifier = 1.0

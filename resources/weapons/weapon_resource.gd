@@ -18,27 +18,12 @@ extends Resource
 
 ## Weapon / state
 var last_fire_time : float
-var ammo_in_magazine : int
-var is_trigger_down := false:
-	set(val):
-		if is_trigger_down != val:
-			is_trigger_down = val
-		if is_trigger_down:
-			on_trigger_down()
-		else:
-			on_trigger_up()
-
+var current_ammo_in_magazine : int
+var reserve_ammo : int
+var is_trigger_down := false
 var is_equipped := false
 var is_equipping := false
 var is_reloading := false
-
-signal weapon_fired
-
-func on_trigger_down():
-	try_fire()
-
-func on_trigger_up():
-	pass
 
 ## Recoil logic
 func get_spray_recoil_for_heat(heat: float):
@@ -47,10 +32,11 @@ func get_spray_recoil_for_heat(heat: float):
 	return Vector2()
 
 ## Firing Logic
-func try_fire():
+func try_fire() -> bool:
 	if !can_fire():
 		return false
-	weapon_fired.emit()
+	if !is_knife:
+		current_ammo_in_magazine -= 1
 	last_fire_time = Time.get_ticks_msec() * 0.001
 	return true
 
@@ -63,6 +49,22 @@ func can_fire():
 		return false
 
 	# Optional: ammo checks here
-	#if ammo_in_magazine <= 0:
-		#return false
+	if current_ammo_in_magazine <= 0:
+		return false
 	return true
+
+func on_first_equip():
+	current_ammo_in_magazine = magazine_size
+	reserve_ammo = total_ammo - magazine_size
+
+func can_reload():
+	if is_reloading: return false
+	if current_ammo_in_magazine == magazine_size: return false
+	if is_knife: return false
+	if reserve_ammo == 0: return false
+	return true
+
+func calculate_ammo():
+	var ammo_to_add = min(magazine_size - current_ammo_in_magazine, reserve_ammo)
+	reserve_ammo -= ammo_to_add
+	current_ammo_in_magazine += ammo_to_add

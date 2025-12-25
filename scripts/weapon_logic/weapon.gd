@@ -9,13 +9,15 @@ extends CollisionShape3D
 @onready var recoil_controller : RecoilController = $RecoilController
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 
-signal fired(recoil: Vector2)
+signal fired(weapon_resource: WeaponResource)
+signal reloaded(weapon_resource: WeaponResource)
+signal recoil_signal(recoil: Vector2)
 
 var heat := 0.0
 var first_person_camera : Camera3D
 
 func _ready() -> void:
-	weapon_resource.weapon_fired.connect(fire)
+	weapon_resource.on_first_equip()
 	first_person_camera = get_viewport().get_camera_3d()
 	fire_sound.stream = weapon_resource.fire_sound
 	animation_player.play('equip')
@@ -23,16 +25,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	# Handle automatic weapons
 	if weapon_resource.is_trigger_down && weapon_resource.is_automatic && !weapon_resource.is_equipping:
-		weapon_resource.try_fire()
+		fire()
 	# Reduce heat if the trigger isn't down
 	if !weapon_resource.is_trigger_down:
 		heat = max(0.0, heat - delta * weapon_resource.recoil_cooldown_rate)
 
-## Called via the weapon resource itself via the "weapon_fired" signal
-
 ## Called via weapon manager
 func trigger_down():
 	weapon_resource.is_trigger_down = true
+	fire()
 
 ## Called via weapon manager
 func trigger_up():
@@ -40,6 +41,11 @@ func trigger_up():
 
 ## Called via weapon resource
 func fire():
+	var did_weapon_fire = weapon_resource.try_fire()
+	if !did_weapon_fire:
+		return
+	
+	## Do all calculations based on weapon firing
 	var recoil
 	if weapon_resource.is_knife:
 		recoil = Vector2()
@@ -64,12 +70,18 @@ func fire():
 				)
 	fire_sound.play()
 	animation_player.play("fire")
-	fired.emit(recoil)
+	recoil_signal.emit(recoil)
+	fired.emit(weapon_resource)
 
 ## Called via weapon manager
+func start_reload():
+	if weapon_resource.can_reload():
+		weapon_resource.is_reloading = true
+		animation_player.play("reload")
+
+## Don't call this directly! It should be called from within the reload animation
 func reload():
-	weapon_resource.is_reloading = true
-	animation_player.play("reload")
+	weapon_resource.calculate_ammo()
 
 ## Called via weapon manager
 func equip():
@@ -81,10 +93,17 @@ func put_away():
 	weapon_resource.is_reloading = false
 	weapon_resource.is_equipping = false
 	weapon_resource.is_trigger_down = false
-	
+
+
 ## Animation methods
 func on_reload_end():
+	#temp
+	weapon_resource.calculate_ammo()
+	
+	print('magazine now holds: ', weapon_resource.current_ammo_in_magazine)
+	print('reserve ammo: ', weapon_resource.reserve_ammo)
 	weapon_resource.is_reloading = false
+	reloaded.emit(weapon_resource)
 
 func on_weapon_start_equip():
 	weapon_resource.is_trigger_down = false

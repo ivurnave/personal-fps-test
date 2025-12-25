@@ -1,8 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://bntk7ku35he82"]
+[gd_scene load_steps=18 format=3 uid="uid://bntk7ku35he82"]
 
 [ext_resource type="PackedScene" uid="uid://q55qteqsiijb" path="res://scenes/test_dummy.tscn" id="1_mdubt"]
 [ext_resource type="PackedScene" uid="uid://drvfgid71y2jh" path="res://scenes/player.tscn" id="3_q73gl"]
 [ext_resource type="Material" uid="uid://b1m31hn3ed7c0" path="res://resources/materials/grid_material.tres" id="4_2cfq6"]
+[ext_resource type="Script" uid="uid://wkcoqoyir2s1" path="res://scripts/weapon_logic/weapon_drop.gd" id="4_ov3o6"]
+[ext_resource type="PackedScene" uid="uid://5nliifnhy1al" path="res://scenes/weapons/pistol.tscn" id="5_5qa3p"]
+[ext_resource type="PackedScene" uid="uid://c21lkxhq5spuu" path="res://scenes/weapons/bullet_tracer.tscn" id="6_a8erl"]
+[ext_resource type="AudioStream" uid="uid://badxib5ch6kq4" path="res://assets/audio/weapons/pistol/pistol.wav" id="7_w81o4"]
+[ext_resource type="Script" uid="uid://dpdirjjjtweg6" path="res://resources/weapons/weapon_resource.gd" id="8_8wqp5"]
+[ext_resource type="PackedScene" uid="uid://3d8tgcsw6f7v" path="res://scenes/weapons/rifle.tscn" id="9_a8erl"]
+[ext_resource type="AudioStream" uid="uid://buxkq52jmp4ld" path="res://assets/audio/weapons/rifle/laser_rifle.wav" id="10_w81o4"]
+[ext_resource type="Curve2D" uid="uid://bwrkdo3ekpecf" path="res://resources/weapons/rifle/rifle_spray.tres" id="11_8wqp5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
 size = Vector3(30, 1, 30)
@@ -19,6 +27,38 @@ sky = SubResource("Sky_0xm2m")
 ambient_light_source = 2
 ambient_light_color = Color(0.5057936, 0.40608752, 0.7869025, 1)
 fog_enabled = true
+
+[sub_resource type="Resource" id="Resource_4ux3r"]
+resource_local_to_scene = true
+script = ExtResource("8_8wqp5")
+weapon_name = "pistol"
+weapon_slot = "slot2"
+damage = 8.0
+magazine_size = 12
+total_ammo = 24
+rate_of_fire = 8.0
+movement_speed_modifier = 1.0
+fire_sound = ExtResource("7_w81o4")
+recoil_cooldown_rate = 5.0
+bullet_tracer = ExtResource("6_a8erl")
+metadata/_custom_type_script = "uid://dpdirjjjtweg6"
+
+[sub_resource type="Resource" id="Resource_5v360"]
+resource_local_to_scene = true
+script = ExtResource("8_8wqp5")
+weapon_name = "rifle"
+weapon_slot = "slot1"
+damage = 50.0
+is_automatic = true
+magazine_size = 25
+total_ammo = 50
+rate_of_fire = 8.0
+movement_speed_modifier = 1.0
+fire_sound = ExtResource("10_w81o4")
+recoil_pattern = ExtResource("11_8wqp5")
+recoil_cooldown_rate = 15.0
+bullet_tracer = ExtResource("6_a8erl")
+metadata/_custom_type_script = "uid://dpdirjjjtweg6"
 
 [node name="World" type="Node"]
 
@@ -107,3 +147,46 @@ material = ExtResource("4_2cfq6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.548601, 0.29833984, 3.5048094)
 size = Vector3(9, 1, 1)
 material = ExtResource("4_2cfq6")
+
+[node name="Weapons" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, 3)
+
+[node name="WeaponDrop" type="RigidBody3D" parent="Weapons"]
+transform = Transform3D(2.5071824e-08, 0.57357645, -0.819152, 1, -4.371139e-08, 0, -3.580627e-08, -0.819152, -0.57357645, 3.417881, -0.017121077, 0.5999999)
+script = ExtResource("4_ov3o6")
+metadata/_custom_type_script = "uid://wkcoqoyir2s1"
+
+[node name="Pistol" parent="Weapons/WeaponDrop" instance=ExtResource("5_5qa3p")]
+weapon_resource = SubResource("Resource_4ux3r")
+
+[node name="WeaponDrop2" type="RigidBody3D" parent="Weapons"]
+transform = Transform3D(2.5071824e-08, 0.57357645, -0.819152, 1, -4.371139e-08, 0, -3.580627e-08, -0.819152, -0.57357645, 1.6178808, -0.017121077, 0.5999999)
+script = ExtResource("4_ov3o6")
+metadata/_custom_type_script = "uid://wkcoqoyir2s1"
+
+[node name="Pistol" parent="Weapons/WeaponDrop2" instance=ExtResource("5_5qa3p")]
+weapon_resource = SubResource("Resource_4ux3r")
+
+[node name="WeaponDrop3" type="RigidBody3D" parent="Weapons"]
+transform = Transform3D(2.5071824e-08, 0.57357645, -0.819152, 1, -4.371139e-08, 0, -3.580627e-08, -0.819152, -0.57357645, -0.18211937, -0.017121077, 0.5999999)
+script = ExtResource("4_ov3o6")
+metadata/_custom_type_script = "uid://wkcoqoyir2s1"
+
+[node name="Pistol" parent="Weapons/WeaponDrop3" instance=ExtResource("5_5qa3p")]
+weapon_resource = SubResource("Resource_4ux3r")
+
+[node name="WeaponDrop4" type="RigidBody3D" parent="Weapons"]
+transform = Transform3D(2.5071824e-08, 0.57357645, -0.819152, 1, -4.371139e-08, 0, -3.580627e-08, -0.819152, -0.57357645, -1.6821194, -0.017121077, 0.5999999)
+script = ExtResource("4_ov3o6")
+metadata/_custom_type_script = "uid://wkcoqoyir2s1"
+
+[node name="Weapon" parent="Weapons/WeaponDrop4" instance=ExtResource("9_a8erl")]
+weapon_resource = SubResource("Resource_5v360")
+
+[node name="WeaponDrop5" type="RigidBody3D" parent="Weapons"]
+transform = Transform3D(2.5071824e-08, 0.57357645, -0.819152, 1, -4.371139e-08, 0, -3.580627e-08, -0.819152, -0.57357645, -3.5821195, -0.017121077, 0.5999999)
+script = ExtResource("4_ov3o6")
+metadata/_custom_type_script = "uid://wkcoqoyir2s1"
+
+[node name="Weapon" parent="Weapons/WeaponDrop5" instance=ExtResource("9_a8erl")]
+weapon_resource = SubResource("Resource_5v360")
