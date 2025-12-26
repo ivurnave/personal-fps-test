@@ -36,7 +36,7 @@ func _on_weapon_manager_weapon_reloaded(weapon_state: WeaponResource) -> void:
 	update_ammo(weapon_state)
 	update_slot_for_weapon(weapon_state)
 
-func _on_weapon_manager_weapon_switched(new_weapon: WeaponResource) -> void:
+func _on_weapon_manager_weapon_equipped(new_weapon: WeaponResource) -> void:
 	update_ammo(new_weapon)
 	update_slot_for_weapon(new_weapon)
 

@@ -97,11 +97,7 @@ func put_away():
 
 ## Animation methods
 func on_reload_end():
-	#temp
-	weapon_resource.calculate_ammo()
-	
-	print('magazine now holds: ', weapon_resource.current_ammo_in_magazine)
-	print('reserve ammo: ', weapon_resource.reserve_ammo)
+	weapon_resource.calculate_ammo() ## Temp!!! move call to reload animation
 	weapon_resource.is_reloading = false
 	reloaded.emit(weapon_resource)
 

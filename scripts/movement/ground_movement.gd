@@ -1,9 +1,9 @@
 class_name GroundMovement extends BaseMovement
 
 # Ground movement settings
-@export var ground_accel := 11.0
-@export var ground_decel := 7.0
-@export var ground_friction := 3.5
+var ground_accel := 11.0
+var ground_decel := 7.0
+var ground_friction := 3.5
 
 func update(delta: float):
 	apply_ground_friction(delta)
@@ -12,12 +12,15 @@ func update(delta: float):
 
 ## Take the direction we are already going and reduce it by some amount
 func apply_ground_friction(delta: float):
-	var control = max(player.velocity.length(), ground_decel)
+	if movement_controller.wish_dir != Vector3.ZERO:
+		return  # no friction while accelerating
+	var speed = player.velocity.length()
+	if speed == 0:
+		return
+	var control = max(speed, ground_decel)
 	var drop = control * ground_friction * delta
 	var new_speed = max(player.velocity.length() - drop, 0.0)
-	if player.velocity.length() > 0:
-		new_speed /= player.velocity.length()
-	player.velocity *= new_speed
+	player.velocity *= new_speed / speed
 
 ## Apply acceleration in the direction of the inputs according to the current direction of the player
 func apply_ground_acceleration(delta: float):

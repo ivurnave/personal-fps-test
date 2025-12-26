@@ -38,6 +38,9 @@ func detect_state():
 		return
 	state = MoveState.GROUND
 
+func update_rotation(rotation_direction: Vector3):
+	player.global_transform.basis = Basis.from_euler(rotation_direction)
+
 func get_input_direction() -> Vector3:
 	var input_dir_raw = Input.get_vector("move_left","move_right","move_forward","move_backward")
 	return Vector3(input_dir_raw.x, 0, input_dir_raw.y)
@@ -53,3 +56,12 @@ func update(delta):
 	modes[state].update(delta)
 	pre_move_velocity = player.velocity
 	player.move_and_slide()
+
+
+func _on_weapon_manager_weapon_equipped(weapon: WeaponResource) -> void:
+	if player:
+		player.ground_speed = weapon.max_movement_speed
+		player.walk_speed = weapon.max_walk_speed
+		player.crouch_speed = weapon.max_crouch_speed
+		
+		

@@ -29,6 +29,7 @@ section_segments = 1
 [node name="BulletTracer" type="Node3D"]
 top_level = true
 script = ExtResource("1_dk6yj")
+speed = 120.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1.3113416e-07, 1, 0, -1, 1.3113416e-07, 0, 0, -1.034013)

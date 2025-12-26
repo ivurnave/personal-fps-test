@@ -5,9 +5,11 @@ extends Node
 @export var movement_controller : MovementController
 @export var camera_effects_controller : CameraEffectsController
 
-var current_state
-var is_crouching
-var is_walking
+enum PlayerState {AIRBORN, LANDING, GROUNDED}
+
+var current_state : PlayerState
+var is_crouching := false
+var is_walking := false
 
 var was_on_floor : bool = false
 var pre_move_velocity : Vector3
@@ -27,12 +29,15 @@ func detect_current_state():
 	var on_floor = player.is_on_floor()
 	
 	if !on_floor:
-		current_state = 'airborn'
+		#current_state = 'airborn'
+		current_state = PlayerState.AIRBORN
 	elif on_floor and !was_on_floor:
-		current_state = 'landing'
+		#current_state = 'landing'
+		current_state = PlayerState.LANDING
 		on_landing(movement_controller.pre_move_velocity)
 	else:
-		current_state = 'grounded'
+		#current_state = 'grounded'
+		current_state = PlayerState.GROUNDED
 	
 	was_on_floor = on_floor
 	
