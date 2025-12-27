@@ -10,11 +10,11 @@ class_name PlayerController extends CharacterBody3D
 @export_range(2,4) var stand_height := 2.0
 @export var posture_change_speed := 6.0
 
-@export_subgroup("Controllers")
-@export var movement_controller : MovementController
-@export var animation_controller : AnimationController
-@export var state_controller : StateController
-@export var weapon_manager : WeaponManager
+@onready var collision_shape: CollisionShape3D = $CollisionShape3D
+@onready var movement_controller : MovementController = $Components/MovementController
+@onready var animation_controller : AnimationController = $Components/AnimationController
+@onready var state_controller : StateController = $Components/StateController
+@onready var weapon_manager : WeaponManager = $Components/WeaponManager
 
 func _ready() -> void:
 	movement_controller.initialize(self)
@@ -26,7 +26,6 @@ func _physics_process(delta: float) -> void:
 	
 	# This is where we actually do the calculations based on the state of the player...
 	movement_controller.update(delta)
-	
 	animation_controller.processAnimationBasedOnState()
 
 func update_rotation(rotation_direction: Vector3):
