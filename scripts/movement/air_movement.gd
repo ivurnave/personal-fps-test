@@ -1,9 +1,11 @@
 class_name AirMovement extends BaseMovement
 
 # Air movement settings. Need to tweak these to get the feeling dialed in.
-@export var air_cap := 0.85 # Can surf steeper ramps if this is higher, makes it easier to stick and bhop
-@export var air_accel := 800.0
-@export var air_move_speed := 500.0
+var air_cap := 0.85 # Can surf steeper ramps if this is higher, makes it easier to stick and bhop
+var air_accel := 800.0
+var air_move_speed := 500.0
+
+var player_gravity = Vector3(0, -40.0, 0)
 
 func update(delta: float) -> void:
 	apply_air_acceleration(delta)
@@ -26,4 +28,4 @@ func apply_air_acceleration(delta):
 		player.velocity += accel_speed * movement_controller.wish_dir
 
 func apply_gravity(delta: float):
-	player.velocity += player.get_gravity() * delta
+	player.velocity += player_gravity * delta

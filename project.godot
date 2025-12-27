@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Personal FPS Test"
-run/main_scene="uid://bntk7ku35he82"
+run/main_scene="uid://rp070ribwg0k"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 
 [autoload]
@@ -109,7 +109,7 @@ drop_weapon={
 [physics]
 
 3d/physics_engine="Jolt Physics"
-3d/default_gravity=40.0
+3d/default_gravity=20.0
 common/physics_interpolation=true
 
 [rendering]

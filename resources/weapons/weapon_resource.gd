@@ -7,13 +7,15 @@ extends Resource
 @export var is_automatic : bool
 @export var is_knife := false
 @export var is_droppable := true
+@export var max_movement_speed : float
+@export var max_walk_speed : float
+@export var max_crouch_speed : float
 @export var magazine_size : int
 @export var total_ammo : int
 @export var rate_of_fire : float
-@export var movement_speed_modifier : float
-@export var fire_sound : AudioStream
-@export var recoil_pattern : Curve2D
 @export var recoil_cooldown_rate : float
+@export var recoil_pattern : Curve2D
+@export var fire_sound : AudioStream
 @export var bullet_tracer : PackedScene
 
 ## Weapon / state

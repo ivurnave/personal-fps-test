@@ -16,7 +16,7 @@ var current_weapon : Weapon
 var current_weapon_slot : String
 var weapon_dictionary : Dictionary[String, Weapon]
 
-signal weapon_switched(weapon: WeaponResource)
+signal weapon_equipped(weapon: WeaponResource)
 signal weapon_fired(weapon: WeaponResource)
 signal weapon_reloaded(weapon: WeaponResource)
 signal weapon_dropped(weapon: WeaponResource)
@@ -53,7 +53,7 @@ func equip_weapon(slot: String):
 	current_weapon_slot = slot
 	connect_weapon_signals()
 	current_weapon.equip()
-	weapon_switched.emit(current_weapon.weapon_resource)
+	weapon_equipped.emit(current_weapon.weapon_resource)
 
 func drop_current_weapon():
 	if current_weapon.weapon_resource.is_droppable:
@@ -91,7 +91,7 @@ func pass_current_weapon_to_dropped_weapon(curr: Weapon):
 	curr.get_parent().remove_child(curr)
 	dropped_weapon.add_child(curr)
 	
-	## Add impulse to weapon drop in direction of camera (and up a bit)
+	## Add impulse to weapon drop in direction of camera
 	var impulse_direction = view_model.global_basis.z.normalized()
 	dropped_weapon.apply_central_impulse(impulse_direction * weapon_drop_force) 
 

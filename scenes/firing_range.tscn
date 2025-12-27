@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bntk7ku35he82"]
+[gd_scene load_steps=21 format=3 uid="uid://bntk7ku35he82"]
 
 [ext_resource type="PackedScene" uid="uid://q55qteqsiijb" path="res://scenes/test_dummy.tscn" id="1_mdubt"]
 [ext_resource type="PackedScene" uid="uid://drvfgid71y2jh" path="res://scenes/player.tscn" id="3_q73gl"]
@@ -9,8 +9,8 @@
 [ext_resource type="AudioStream" uid="uid://badxib5ch6kq4" path="res://assets/audio/weapons/pistol/pistol.wav" id="7_w81o4"]
 [ext_resource type="Script" uid="uid://dpdirjjjtweg6" path="res://resources/weapons/weapon_resource.gd" id="8_8wqp5"]
 [ext_resource type="PackedScene" uid="uid://3d8tgcsw6f7v" path="res://scenes/weapons/rifle.tscn" id="9_a8erl"]
-[ext_resource type="AudioStream" uid="uid://buxkq52jmp4ld" path="res://assets/audio/weapons/rifle/laser_rifle.wav" id="10_w81o4"]
-[ext_resource type="Curve2D" uid="uid://bwrkdo3ekpecf" path="res://resources/weapons/rifle/rifle_spray.tres" id="11_8wqp5"]
+[ext_resource type="AudioStream" uid="uid://buxkq52jmp4ld" path="res://assets/audio/weapons/rifle/laser_rifle.wav" id="10_4ux3r"]
+[ext_resource type="Curve2D" uid="uid://bwrkdo3ekpecf" path="res://resources/weapons/rifle/rifle_spray.tres" id="11_5v360"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
 size = Vector3(30, 1, 30)
@@ -28,35 +28,92 @@ ambient_light_source = 2
 ambient_light_color = Color(0.5057936, 0.40608752, 0.7869025, 1)
 fog_enabled = true
 
-[sub_resource type="Resource" id="Resource_4ux3r"]
+[sub_resource type="Resource" id="Resource_jclm5"]
 resource_local_to_scene = true
 script = ExtResource("8_8wqp5")
 weapon_name = "pistol"
 weapon_slot = "slot2"
 damage = 8.0
+max_movement_speed = 5.0
+max_walk_speed = 2.5
+max_crouch_speed = 2.0
 magazine_size = 12
 total_ammo = 24
 rate_of_fire = 8.0
-movement_speed_modifier = 1.0
-fire_sound = ExtResource("7_w81o4")
 recoil_cooldown_rate = 5.0
+fire_sound = ExtResource("7_w81o4")
 bullet_tracer = ExtResource("6_a8erl")
 metadata/_custom_type_script = "uid://dpdirjjjtweg6"
 
-[sub_resource type="Resource" id="Resource_5v360"]
+[sub_resource type="Resource" id="Resource_aknvh"]
+resource_local_to_scene = true
+script = ExtResource("8_8wqp5")
+weapon_name = "pistol"
+weapon_slot = "slot2"
+damage = 8.0
+max_movement_speed = 5.0
+max_walk_speed = 2.5
+max_crouch_speed = 2.0
+magazine_size = 12
+total_ammo = 24
+rate_of_fire = 8.0
+recoil_cooldown_rate = 5.0
+fire_sound = ExtResource("7_w81o4")
+bullet_tracer = ExtResource("6_a8erl")
+metadata/_custom_type_script = "uid://dpdirjjjtweg6"
+
+[sub_resource type="Resource" id="Resource_faima"]
+resource_local_to_scene = true
+script = ExtResource("8_8wqp5")
+weapon_name = "pistol"
+weapon_slot = "slot2"
+damage = 8.0
+max_movement_speed = 5.0
+max_walk_speed = 2.5
+max_crouch_speed = 2.0
+magazine_size = 12
+total_ammo = 24
+rate_of_fire = 8.0
+recoil_cooldown_rate = 5.0
+fire_sound = ExtResource("7_w81o4")
+bullet_tracer = ExtResource("6_a8erl")
+metadata/_custom_type_script = "uid://dpdirjjjtweg6"
+
+[sub_resource type="Resource" id="Resource_564i3"]
 resource_local_to_scene = true
 script = ExtResource("8_8wqp5")
 weapon_name = "rifle"
 weapon_slot = "slot1"
 damage = 50.0
 is_automatic = true
+max_movement_speed = 4.5
+max_walk_speed = 2.2
+max_crouch_speed = 2.0
 magazine_size = 25
 total_ammo = 50
 rate_of_fire = 8.0
-movement_speed_modifier = 1.0
-fire_sound = ExtResource("10_w81o4")
-recoil_pattern = ExtResource("11_8wqp5")
 recoil_cooldown_rate = 15.0
+recoil_pattern = ExtResource("11_5v360")
+fire_sound = ExtResource("10_4ux3r")
+bullet_tracer = ExtResource("6_a8erl")
+metadata/_custom_type_script = "uid://dpdirjjjtweg6"
+
+[sub_resource type="Resource" id="Resource_wylvc"]
+resource_local_to_scene = true
+script = ExtResource("8_8wqp5")
+weapon_name = "rifle"
+weapon_slot = "slot1"
+damage = 50.0
+is_automatic = true
+max_movement_speed = 4.5
+max_walk_speed = 2.2
+max_crouch_speed = 2.0
+magazine_size = 25
+total_ammo = 50
+rate_of_fire = 8.0
+recoil_cooldown_rate = 15.0
+recoil_pattern = ExtResource("11_5v360")
+fire_sound = ExtResource("10_4ux3r")
 bullet_tracer = ExtResource("6_a8erl")
 metadata/_custom_type_script = "uid://dpdirjjjtweg6"
 
@@ -157,7 +214,7 @@ script = ExtResource("4_ov3o6")
 metadata/_custom_type_script = "uid://wkcoqoyir2s1"
 
 [node name="Pistol" parent="Weapons/WeaponDrop" instance=ExtResource("5_5qa3p")]
-weapon_resource = SubResource("Resource_4ux3r")
+weapon_resource = SubResource("Resource_jclm5")
 
 [node name="WeaponDrop2" type="RigidBody3D" parent="Weapons"]
 transform = Transform3D(2.5071824e-08, 0.57357645, -0.819152, 1, -4.371139e-08, 0, -3.580627e-08, -0.819152, -0.57357645, 1.6178808, -0.017121077, 0.5999999)
@@ -165,7 +222,7 @@ script = ExtResource("4_ov3o6")
 metadata/_custom_type_script = "uid://wkcoqoyir2s1"
 
 [node name="Pistol" parent="Weapons/WeaponDrop2" instance=ExtResource("5_5qa3p")]
-weapon_resource = SubResource("Resource_4ux3r")
+weapon_resource = SubResource("Resource_aknvh")
 
 [node name="WeaponDrop3" type="RigidBody3D" parent="Weapons"]
 transform = Transform3D(2.5071824e-08, 0.57357645, -0.819152, 1, -4.371139e-08, 0, -3.580627e-08, -0.819152, -0.57357645, -0.18211937, -0.017121077, 0.5999999)
@@ -173,7 +230,7 @@ script = ExtResource("4_ov3o6")
 metadata/_custom_type_script = "uid://wkcoqoyir2s1"
 
 [node name="Pistol" parent="Weapons/WeaponDrop3" instance=ExtResource("5_5qa3p")]
-weapon_resource = SubResource("Resource_4ux3r")
+weapon_resource = SubResource("Resource_faima")
 
 [node name="WeaponDrop4" type="RigidBody3D" parent="Weapons"]
 transform = Transform3D(2.5071824e-08, 0.57357645, -0.819152, 1, -4.371139e-08, 0, -3.580627e-08, -0.819152, -0.57357645, -1.6821194, -0.017121077, 0.5999999)
@@ -181,7 +238,7 @@ script = ExtResource("4_ov3o6")
 metadata/_custom_type_script = "uid://wkcoqoyir2s1"
 
 [node name="Weapon" parent="Weapons/WeaponDrop4" instance=ExtResource("9_a8erl")]
-weapon_resource = SubResource("Resource_5v360")
+weapon_resource = SubResource("Resource_564i3")
 
 [node name="WeaponDrop5" type="RigidBody3D" parent="Weapons"]
 transform = Transform3D(2.5071824e-08, 0.57357645, -0.819152, 1, -4.371139e-08, 0, -3.580627e-08, -0.819152, -0.57357645, -3.5821195, -0.017121077, 0.5999999)
@@ -189,4 +246,4 @@ script = ExtResource("4_ov3o6")
 metadata/_custom_type_script = "uid://wkcoqoyir2s1"
 
 [node name="Weapon" parent="Weapons/WeaponDrop5" instance=ExtResource("9_a8erl")]
-weapon_resource = SubResource("Resource_5v360")
+weapon_resource = SubResource("Resource_wylvc")
