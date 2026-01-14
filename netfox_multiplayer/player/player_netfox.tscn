@@ -59,6 +59,26 @@ mouse_sensitivity = 0.2
 script = ExtResource("3_hcwtg")
 inputs = NodePath("../Inputs")
 
+[node name="RollbackSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("22_lq4jd")
+root = NodePath("..")
+state_properties = Array[String]([":transform", ":velocity", "CameraController:transform"])
+input_properties = Array[String](["Inputs:movement_input", "Inputs:look_angle", "Inputs:jump_input", "Inputs:fire_input"])
+metadata/_custom_type_script = "uid://d350u8evihs1u"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hcwtg")
+
+[node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("23_qmt4l")
+root = NodePath("..")
+properties = Array[String]([":transform", "CameraController:transform"])
+metadata/_custom_type_script = "uid://dour8fehaaugp"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_7cusj")
+
 [node name="CameraController" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.874, 0)
 script = ExtResource("4_hcwtg")
@@ -115,26 +135,6 @@ offset_bottom = 13.359924
 grow_horizontal = 2
 grow_vertical = 0
 value = 100.0
-
-[node name="RollbackSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
-script = ExtResource("22_lq4jd")
-root = NodePath("..")
-state_properties = Array[String]([":transform", ":velocity", "CameraController:transform"])
-input_properties = Array[String](["Inputs:movement_input", "Inputs:look_angle", "Inputs:jump_input", "Inputs:fire_input"])
-metadata/_custom_type_script = "uid://d350u8evihs1u"
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_hcwtg")
-
-[node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
-script = ExtResource("23_qmt4l")
-root = NodePath("..")
-properties = Array[String]([":transform", "CameraController:transform"])
-metadata/_custom_type_script = "uid://dour8fehaaugp"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_7cusj")
 
 [node name="HitBody" type="Area3D" parent="." node_paths=PackedStringArray("owning_node")]
 collision_layer = 4

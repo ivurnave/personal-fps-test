@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://xdyg5tgouppb"
-path="res://.godot/imported/spray-pattern-reference.png-3817aefb9bb9dfc66b42b9954cec6fbf.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://assets/spray-pattern-reference.png"
-dest_files=["res://.godot/imported/spray-pattern-reference.png-3817aefb9bb9dfc66b42b9954cec6fbf.ctex"]
 
 [params]
 
