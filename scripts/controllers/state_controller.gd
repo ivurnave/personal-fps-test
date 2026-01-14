@@ -4,6 +4,8 @@ extends Node
 @export var player : PlayerController
 @export var movement_controller : MovementController
 @export var camera_effects_controller : CameraEffectsController
+#@export var inputs : InputSynchronizer
+@export var inputs : InputSynchronizerRPC
 
 enum PlayerState {AIRBORN, LANDING, GROUNDED}
 
@@ -23,8 +25,8 @@ signal landed_soft
 func detect_current_state():
 	pre_move_velocity = player.velocity
 	
-	is_crouching = Input.is_action_pressed("crouch")
-	is_walking = Input.is_action_pressed("walk")
+	is_crouching = inputs.crouch_input
+	is_walking = inputs.walk_input
 	
 	var on_floor = player.is_on_floor()
 	
@@ -54,6 +56,3 @@ func on_landing(impact_velocity: Vector3):
 		landed_soft.emit()
 
 	landed.emit()
-
-func _physics_process(_delta: float) -> void:
-	detect_current_state()

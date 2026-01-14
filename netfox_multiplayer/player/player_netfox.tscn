@@ -1,0 +1,183 @@
+[gd_scene load_steps=21 format=3 uid="uid://5lkd7bxu0obe"]
+
+[ext_resource type="Script" uid="uid://kecaqtrlbaex" path="res://netfox_multiplayer/player/player_controller_netfox.gd" id="1_hcwtg"]
+[ext_resource type="Script" uid="uid://csvwfkdwmbwl5" path="res://netfox_multiplayer/player/player_inputs_netfox.gd" id="2_hcwtg"]
+[ext_resource type="Script" uid="uid://c25jqsye12mbf" path="res://netfox_multiplayer/player/movement/movement_controller_netfox.gd" id="3_hcwtg"]
+[ext_resource type="Script" uid="uid://crjnkiliaaya1" path="res://netfox_multiplayer/player/camera_effects_netfox.gd" id="4_1n4b4"]
+[ext_resource type="Script" uid="uid://cexqp82fwgntw" path="res://netfox_multiplayer/player/camera_controller_netfox.gd" id="4_hcwtg"]
+[ext_resource type="PackedScene" uid="uid://5y3sqpdp2eno" path="res://netfox_multiplayer/weapon/weapon_netfox.tscn" id="4_t41js"]
+[ext_resource type="Script" uid="uid://bvysf2lrxw8jc" path="res://netfox_multiplayer/player/view_model_effects_netfox.gd" id="6_hcwtg"]
+[ext_resource type="Script" uid="uid://cf73povaq6to6" path="res://scripts/hud/crosshair.gd" id="6_vod0g"]
+[ext_resource type="Script" uid="uid://ba500q6ptq6yv" path="res://scripts/hurtbox.gd" id="11_0vlkt"]
+[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="22_lq4jd"]
+[ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="23_qmt4l"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hcwtg"]
+properties/0/path = NodePath(".:player_id")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7cusj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_frosm"]
+radius = 0.51
+height = 1.51
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p43bn"]
+albedo_color = Color(0.118590854, 0.2343466, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1fblp"]
+material = SubResource("StandardMaterial3D_p43bn")
+height = 1.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ey1ks"]
+radius = 0.26
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gionw"]
+albedo_color = Color(0, 0.46009356, 0.72338104, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_wmslk"]
+material = SubResource("StandardMaterial3D_gionw")
+radius = 0.25
+height = 0.5
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_pqawo"]
+viewport_path = NodePath("HitHead/Head/HealthBar/Sprite3D/SubViewport")
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("inputs")]
+collision_layer = 2
+script = ExtResource("1_hcwtg")
+inputs = NodePath("Inputs")
+
+[node name="StateController" type="Node" parent="."]
+
+[node name="Inputs" type="Node" parent="."]
+script = ExtResource("2_hcwtg")
+mouse_sensitivity = 0.2
+
+[node name="MovementController" type="Node" parent="." node_paths=PackedStringArray("inputs")]
+script = ExtResource("3_hcwtg")
+inputs = NodePath("../Inputs")
+
+[node name="CameraController" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.874, 0)
+script = ExtResource("4_hcwtg")
+
+[node name="CameraEffects" type="Node3D" parent="CameraController"]
+script = ExtResource("4_1n4b4")
+snappiness = 30.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraController/CameraEffects"]
+fov = 90.0
+
+[node name="Hand" type="Node3D" parent="CameraController/CameraEffects/Camera3D" node_paths=PackedStringArray("inputs")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.209, -0.171, -0.311)
+script = ExtResource("6_hcwtg")
+inputs = NodePath("../../../../Inputs")
+
+[node name="Weapon" parent="CameraController/CameraEffects/Camera3D/Hand" node_paths=PackedStringArray("inputs", "camera") instance=ExtResource("4_t41js")]
+inputs = NodePath("../../../../../Inputs")
+camera = NodePath("../..")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CameraController/CameraEffects/Camera3D"]
+
+[node name="HUD" type="Control" parent="CameraController/CameraEffects/Camera3D/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Crosshair" type="Control" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_vod0g")
+dot_radius = 2.0
+
+[node name="HealthBar" type="ProgressBar" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.9620001
+anchor_right = 0.5
+anchor_bottom = 0.9620001
+offset_left = -138.0
+offset_top = -13.640076
+offset_right = 138.0
+offset_bottom = 13.359924
+grow_horizontal = 2
+grow_vertical = 0
+value = 100.0
+
+[node name="RollbackSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("22_lq4jd")
+root = NodePath("..")
+state_properties = Array[String]([":transform", ":velocity", "CameraController:transform"])
+input_properties = Array[String](["Inputs:movement_input", "Inputs:look_angle", "Inputs:jump_input", "Inputs:fire_input"])
+metadata/_custom_type_script = "uid://d350u8evihs1u"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hcwtg")
+
+[node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("23_qmt4l")
+root = NodePath("..")
+properties = Array[String]([":transform", "CameraController:transform"])
+metadata/_custom_type_script = "uid://dour8fehaaugp"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_7cusj")
+
+[node name="HitBody" type="Area3D" parent="." node_paths=PackedStringArray("owning_node")]
+collision_layer = 4
+script = ExtResource("11_0vlkt")
+owning_node = NodePath("..")
+metadata/_custom_type_script = "uid://ba500q6ptq6yv"
+
+[node name="BodyCollider" type="CollisionShape3D" parent="HitBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("CapsuleShape3D_frosm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HitBody/BodyCollider"]
+mesh = SubResource("CapsuleMesh_1fblp")
+skeleton = NodePath("../../..")
+
+[node name="HitHead" type="Area3D" parent="." node_paths=PackedStringArray("owning_node")]
+collision_layer = 4
+script = ExtResource("11_0vlkt")
+owning_node = NodePath("..")
+type = 0
+metadata/_custom_type_script = "uid://ba500q6ptq6yv"
+
+[node name="Head" type="CollisionShape3D" parent="HitHead"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+shape = SubResource("SphereShape3D_ey1ks")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HitHead/Head"]
+mesh = SubResource("SphereMesh_wmslk")
+
+[node name="HealthBar" type="Node3D" parent="HitHead/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5721116, 0)
+visible = false
+
+[node name="Sprite3D" type="Sprite3D" parent="HitHead/Head/HealthBar"]
+billboard = 1
+texture = SubResource("ViewportTexture_pqawo")
+
+[node name="SubViewport" type="SubViewport" parent="HitHead/Head/HealthBar/Sprite3D"]
+transparent_bg = true
+size = Vector2i(200, 30)
+
+[node name="ProgressBar" type="ProgressBar" parent="HitHead/Head/HealthBar/Sprite3D/SubViewport"]
+offset_right = 200.0
+offset_bottom = 30.0
+
+[connection signal="weapon_fired" from="CameraController/CameraEffects/Camera3D/Hand/Weapon" to="CameraController/CameraEffects" method="on_weapon_fired"]

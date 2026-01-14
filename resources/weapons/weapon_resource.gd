@@ -18,7 +18,8 @@ extends Resource
 @export var fire_sound : AudioStream
 @export var bullet_tracer : PackedScene
 
-## Weapon / state
+### Weapon / state (REMOVE THIS FROM THE RESOURCE)
+## IT SHOULD BE TRACKED IN THE WEAPON INSTANCE (weapon.gd)
 var last_fire_time : float
 var current_ammo_in_magazine : int
 var reserve_ammo : int
@@ -33,40 +34,40 @@ func get_spray_recoil_for_heat(heat: float):
 		return recoil_pattern.get_point_position(int(heat) % recoil_pattern.point_count)
 	return Vector2()
 
-## Firing Logic
-func try_fire() -> bool:
-	if !can_fire():
-		return false
-	if !is_knife:
-		current_ammo_in_magazine -= 1
-	last_fire_time = Time.get_ticks_msec() * 0.001
-	return true
-
-func can_fire():
-	if is_reloading || is_equipping:
-		return false
-	var now := Time.get_ticks_msec() * 0.001
-	var fire_interval := 1.0 / rate_of_fire
-	if now - last_fire_time < fire_interval:
-		return false
-
-	# Optional: ammo checks here
-	if current_ammo_in_magazine <= 0:
-		return false
-	return true
-
-func on_first_equip():
-	current_ammo_in_magazine = magazine_size
-	reserve_ammo = total_ammo - magazine_size
-
-func can_reload():
-	if is_reloading: return false
-	if current_ammo_in_magazine == magazine_size: return false
-	if is_knife: return false
-	if reserve_ammo == 0: return false
-	return true
-
-func calculate_ammo():
-	var ammo_to_add = min(magazine_size - current_ammo_in_magazine, reserve_ammo)
-	reserve_ammo -= ammo_to_add
-	current_ammo_in_magazine += ammo_to_add
+### Firing Logic
+#func try_fire() -> bool:
+	#if !can_fire():
+		#return false
+	#if !is_knife:
+		#current_ammo_in_magazine -= 1
+	#last_fire_time = Time.get_ticks_msec() * 0.001
+	#return true
+#
+#func can_fire():
+	#if is_reloading || is_equipping:
+		#return false
+	#var now := Time.get_ticks_msec() * 0.001
+	#var fire_interval := 1.0 / rate_of_fire
+	#if now - last_fire_time < fire_interval:
+		#return false
+#
+	## Optional: ammo checks here
+	#if current_ammo_in_magazine <= 0:
+		#return false
+	#return true
+#
+#func on_first_equip():
+	#current_ammo_in_magazine = magazine_size
+	#reserve_ammo = total_ammo - magazine_size
+#
+#func can_reload():
+	#if is_reloading: return false
+	#if current_ammo_in_magazine == magazine_size: return false
+	#if is_knife: return false
+	#if reserve_ammo == 0: return false
+	#return true
+#
+#func calculate_ammo():
+	#var ammo_to_add = min(magazine_size - current_ammo_in_magazine, reserve_ammo)
+	#reserve_ammo -= ammo_to_add
+	#current_ammo_in_magazine += ammo_to_add

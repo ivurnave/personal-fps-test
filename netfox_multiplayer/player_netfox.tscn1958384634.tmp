@@ -1,0 +1,87 @@
+[gd_scene load_steps=12 format=3 uid="uid://5lkd7bxu0obe"]
+
+[ext_resource type="Script" uid="uid://kecaqtrlbaex" path="res://netfox_multiplayer/player_controller_netfox.gd" id="1_hcwtg"]
+[ext_resource type="Script" uid="uid://csvwfkdwmbwl5" path="res://netfox_multiplayer/player_inputs_netfox.gd" id="2_hcwtg"]
+[ext_resource type="Script" uid="uid://c25jqsye12mbf" path="res://netfox_multiplayer/movement_controller_netfox.gd" id="3_hcwtg"]
+[ext_resource type="Script" uid="uid://crjnkiliaaya1" path="res://scripts/camera/camera_effects.gd" id="4_1n4b4"]
+[ext_resource type="Script" uid="uid://cexqp82fwgntw" path="res://netfox_multiplayer/camera_controller_netfox.gd" id="4_hcwtg"]
+[ext_resource type="Script" uid="uid://cf73povaq6to6" path="res://scripts/hud/crosshair.gd" id="6_vod0g"]
+[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="22_lq4jd"]
+[ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="23_qmt4l"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4r5pv"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hcwtg"]
+properties/0/path = NodePath(".:player_id")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("inputs")]
+collision_layer = 2
+script = ExtResource("1_hcwtg")
+ground_speed = null
+air_speed = null
+jump_speed = null
+inputs = NodePath("PlayerInputs")
+player_id = null
+
+[node name="PlayerInputs" type="Node" parent="."]
+script = ExtResource("2_hcwtg")
+mouse_sensitivity = 0.2
+
+[node name="MovementController" type="Node" parent="." node_paths=PackedStringArray("inputs")]
+script = ExtResource("3_hcwtg")
+inputs = NodePath("../PlayerInputs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_sh265")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_4r5pv")
+
+[node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("movement_controller")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.874, 0)
+script = ExtResource("4_hcwtg")
+movement_controller = NodePath("../MovementController")
+
+[node name="CameraEffects" type="Node3D" parent="CameraController"]
+script = ExtResource("4_1n4b4")
+snappiness = 30.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraController/CameraEffects"]
+cull_mask = 1048571
+fov = 90.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CameraController/CameraEffects/Camera3D"]
+
+[node name="Crosshair" type="Control" parent="CameraController/CameraEffects/Camera3D/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_vod0g")
+dot_radius = 2.0
+
+[node name="RollbackSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("22_lq4jd")
+root = NodePath("..")
+state_properties = Array[String]([":global_transform"])
+input_properties = Array[String](["PlayerInputs:movement_input", "PlayerInputs:jump_input"])
+enable_input_broadcast = false
+metadata/_custom_type_script = "uid://d350u8evihs1u"
+
+[node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("23_qmt4l")
+root = NodePath("..")
+properties = Array[String]([":global_transform"])
+metadata/_custom_type_script = "uid://dour8fehaaugp"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hcwtg")

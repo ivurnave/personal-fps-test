@@ -1,0 +1,133 @@
+[gd_scene load_steps=7 format=3 uid="uid://bxal35l1nuc2x"]
+
+[ext_resource type="Script" uid="uid://bd68601wvrser" path="res://scripts/networking/multiplayer_lobby.gd" id="1_4ea5e"]
+[ext_resource type="Material" uid="uid://b1m31hn3ed7c0" path="res://resources/materials/grid_material.tres" id="3_l6le0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7dm0k"]
+size = Vector3(30, 1, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
+size = Vector3(30, 1, 30)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 1
+background_color = Color(0.83756435, 0.525249, 0.45322728, 1)
+sky = SubResource("Sky_0xm2m")
+ambient_light_source = 2
+ambient_light_color = Color(0.5057936, 0.40608752, 0.7869025, 1)
+fog_enabled = true
+
+[node name="World" type="Node"]
+script = ExtResource("1_4ea5e")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 417.0
+offset_top = 307.0
+offset_right = -417.0
+offset_bottom = -307.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="HostButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.104654, 0, 5.958514)
+shape = SubResource("BoxShape3D_7dm0k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.104654, 0, 5.958514)
+mesh = SubResource("BoxMesh_ig7tw")
+surface_material_override/0 = ExtResource("3_l6le0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-4.371139e-08, -0.9659258, 0.25881904, 0, 0.25881907, 0.96592593, -1.0000001, 4.2221963e-08, -1.131334e-08, 4.104654, 11, 5.958514)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h2yge")
+
+[node name="LevelGeometry" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.1046543, 0, 20.958513)
+use_collision = true
+size = Vector3(1, 20, 31)
+material = ExtResource("3_l6le0")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.104653, 0, -9.041486)
+material_override = ExtResource("3_l6le0")
+use_collision = true
+size = Vector3(1, 20, 31)
+material = ExtResource("3_l6le0")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.104652, 0, 5.9585137)
+use_collision = true
+size = Vector3(1, 20, 31)
+material = ExtResource("3_l6le0")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(-1.0000001, 0, -1.39090695e-08, 0, 1, 0, 1.39090695e-08, 0, -1.0000001, -10.895347, 0, 5.9585137)
+use_collision = true
+size = Vector3(1, 20, 31)
+material = ExtResource("3_l6le0")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="LevelGeometry"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.421282, 1.5, -3.673821)
+use_collision = true
+polygon = PackedVector2Array(-4.3, -1.5, 0, 1, 5, 1, 5.6, -1.5)
+depth = 4.8
+material = ExtResource("3_l6le0")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 1.5486009, 0.29833984, -2.4951932)
+size = Vector3(13, 1, 1)
+material = ExtResource("3_l6le0")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 11.548601, 0.29833984, -2.4951909)
+size = Vector3(13, 1, 1)
+material = ExtResource("3_l6le0")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="LevelGeometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.548601, 0.29833984, 3.5048094)
+size = Vector3(9, 1, 1)
+material = ExtResource("3_l6le0")
+
+[node name="PlayerSpawner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.399879, 2.7719455, -6.464325)
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://drvfgid71y2jh", "uid://c21lkxhq5spuu", "uid://ds4utfqicnhwd", "uid://5nliifnhy1al", "uid://3d8tgcsw6f7v", "uid://dfbtj0pf8vece")
+spawn_path = NodePath("../PlayerSpawner")
+
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]

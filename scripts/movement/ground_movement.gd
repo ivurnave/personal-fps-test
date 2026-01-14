@@ -1,4 +1,5 @@
-class_name GroundMovement extends BaseMovement
+extends BaseMovement
+class_name GroundMovement
 
 # Ground movement settings
 var ground_accel := 11.0
@@ -35,10 +36,14 @@ func apply_ground_acceleration(delta: float):
 
 ## Set upward velocity, transfering us to air state (probably)
 func apply_jump_velocity():
-	if Input.is_action_just_pressed("jump"):
+	if inputs.jump_input:
+		inputs.jump_input = false
 		player.velocity.y = player.jump_speed
 
 func get_move_speed() -> float:
-	if player.state_controller.is_crouching: return player.crouch_speed
-	if player.state_controller.is_walking: return player.walk_speed
+	# if player.state_controller.is_crouching: return player.crouch_speed
+	# if player.state_controller.is_walking: return player.walk_speed
+	# return player.ground_speed
+	# if movement_controller.inputs. == : return player.crouch_speed
+	# if player.state_controller.is_walking: return player.walk_speed
 	return player.ground_speed

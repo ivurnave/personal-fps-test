@@ -2,7 +2,8 @@ class_name ViewModelMovement
 extends Node3D
 
 @export var player : PlayerController
-@export var mouse_capture : MouseCaptureComponent
+#@export var inputs : InputSynchronizer
+@export var inputs : InputSynchronizerRPC
 @export var max_rotation := 2.0
 @export var max_rotation_offset := 1.0
 @export var max_vertical_offset := 0.2
@@ -20,11 +21,10 @@ func _ready():
 	default_pos = position
 	default_rot = rotation
 
-func _physics_process(delta: float) -> void:
-	apply_rotation_for_mouse_movement(mouse_capture._mouse_input)
-	apply_offset_for_mouse_movement(mouse_capture._mouse_input)
+func update(delta: float):
+	apply_rotation_for_mouse_movement(inputs.mouse_input)
+	apply_offset_for_mouse_movement(inputs.mouse_input)
 	apply_offset_for_player_velocity()
-	
 	ease_back_to_default(delta)
 
 func ease_back_to_default(delta: float):
@@ -46,6 +46,3 @@ func apply_offset_for_player_velocity() -> void:
 
 func is_player_moving() -> bool:
 	return player.velocity.length_squared() > 0.01 && player.is_on_floor()
-
-func _on_weapon_manager_weapon_fire(_recoil: Vector2) -> void:
-	position.z += view_model_shake_amount

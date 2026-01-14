@@ -1,0 +1,286 @@
+[gd_scene load_steps=29 format=3 uid="uid://dfbtj0pf8vece"]
+
+[ext_resource type="Script" uid="uid://ds632o40hgtco" path="res://scripts/controllers/player_controller.gd" id="1_gfh0n"]
+[ext_resource type="Script" uid="uid://bmosnj0j8l6vv" path="res://scripts/camera/camera_controller.gd" id="3_fg8lk"]
+[ext_resource type="Script" uid="uid://crjnkiliaaya1" path="res://scripts/camera/camera_effects.gd" id="4_8785w"]
+[ext_resource type="Script" uid="uid://cbt85t0o8pd1e" path="res://scripts/hud/panel_container.gd" id="5_ue6vx"]
+[ext_resource type="Script" uid="uid://cf73povaq6to6" path="res://scripts/hud/crosshair.gd" id="6_efaph"]
+[ext_resource type="Script" uid="uid://m06a2l44irip" path="res://scripts/hud/weapon_panel.gd" id="7_lmgcj"]
+[ext_resource type="Script" uid="uid://3a26ufgsd5sw" path="res://scripts/movement/view_model_movement.gd" id="8_1trgk"]
+[ext_resource type="PackedScene" uid="uid://dew64ulrvhumk" path="res://scenes/view_model_arms.tscn" id="9_l0x11"]
+[ext_resource type="Script" uid="uid://b2wlce7fmw5y2" path="res://scripts/movement/movement_controller.gd" id="10_vw4gh"]
+[ext_resource type="Script" uid="uid://no6ckpqdkoa" path="res://scripts/controllers/animation_controller.gd" id="11_1rjge"]
+[ext_resource type="Script" uid="uid://bloaa7ip1a1v2" path="res://scripts/controllers/state_controller.gd" id="12_3bj3w"]
+[ext_resource type="Script" uid="uid://dhvt3cjyo85kl" path="res://scripts/controllers/audio_controller.gd" id="13_h5op6"]
+[ext_resource type="Script" uid="uid://7tu5vk0cp540" path="res://scripts/weapon_logic/weapon_manager.gd" id="14_sd7vp"]
+[ext_resource type="PackedScene" uid="uid://ds4utfqicnhwd" path="res://scenes/weapons/knife.tscn" id="15_add58"]
+[ext_resource type="PackedScene" uid="uid://3d8tgcsw6f7v" path="res://scenes/weapons/rifle.tscn" id="15_ysbpt"]
+[ext_resource type="AudioStream" uid="uid://cktqn4bmkj8lg" path="res://assets/audio/footsteps/Concrete 1.wav" id="16_a5blf"]
+[ext_resource type="PackedScene" uid="uid://5nliifnhy1al" path="res://scenes/weapons/pistol.tscn" id="16_fg8lk"]
+[ext_resource type="AudioStream" uid="uid://b3dueihla1q30" path="res://assets/audio/footsteps/Concrete 2.wav" id="17_gal0p"]
+[ext_resource type="AudioStream" uid="uid://bl546hsupwm1f" path="res://assets/audio/footsteps/Gravel 1.wav" id="18_pjrxf"]
+[ext_resource type="AudioStream" uid="uid://cnr7gvq8bfwa8" path="res://assets/audio/wind.wav" id="19_r4r2l"]
+[ext_resource type="Script" uid="uid://vqt3i1kfvcrk" path="res://scripts/networking/input_synchronizer_rpc.gd" id="20_lmu38"]
+[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="22_fg8lk"]
+[ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="23_8785w"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4r5pv"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_a38lo"]
+streams_count = 2
+stream_0/stream = ExtResource("16_a5blf")
+stream_1/stream = ExtResource("17_gal0p")
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_i4ail"]
+stream_count = 2
+stream_0/stream = ExtResource("17_gal0p")
+stream_0/volume = 1.0
+stream_1/stream = ExtResource("18_pjrxf")
+stream_1/volume = 0.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ujl30"]
+height = 2.0019531
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("inputs")]
+collision_layer = 2
+script = ExtResource("1_gfh0n")
+inputs = NodePath("PlayerInputs")
+
+[node name="PlayerInputs" type="Node" parent="."]
+script = ExtResource("20_lmu38")
+mouse_sensitivity = 0.2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_sh265")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_4r5pv")
+
+[node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("movement_controller")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.874, 0)
+script = ExtResource("3_fg8lk")
+movement_controller = NodePath("../Components/MovementController")
+
+[node name="CameraEffects" type="Node3D" parent="CameraController"]
+script = ExtResource("4_8785w")
+snappiness = 30.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraController/CameraEffects"]
+cull_mask = 1048571
+fov = 90.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CameraController/CameraEffects/Camera3D"]
+
+[node name="DebugPanel" type="PanelContainer" parent="CameraController/CameraEffects/Camera3D/CanvasLayer" node_paths=PackedStringArray("player", "state_controller")]
+offset_left = 8.0
+offset_top = 13.0
+offset_right = 325.0
+offset_bottom = 166.0
+size_flags_stretch_ratio = 0.0
+script = ExtResource("5_ue6vx")
+player = NodePath("../../../../..")
+state_controller = NodePath("../../../../../Components/StateController")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/DebugPanel"]
+layout_mode = 2
+
+[node name="HorizontalSpeedLabel" type="Label" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/DebugPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Horizontal Speed:"
+
+[node name="VerticalSpeedLabel" type="Label" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/DebugPanel/VBoxContainer"]
+layout_mode = 2
+text = "Vertical Speed:"
+
+[node name="MovementStateLabel" type="Label" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/DebugPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Movement State:"
+
+[node name="StateLabel" type="Label" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/DebugPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "State:"
+
+[node name="Crosshair" type="Control" parent="CameraController/CameraEffects/Camera3D/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_efaph")
+dot_radius = 2.0
+
+[node name="WeaponInfo" type="Control" parent="CameraController/CameraEffects/Camera3D/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 895.0
+offset_top = 478.0
+offset_right = 1064.0
+offset_bottom = 705.0
+script = ExtResource("7_lmgcj")
+
+[node name="SlotsContainer" type="VBoxContainer" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -53.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 44
+
+[node name="slot1" type="Label" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo/SlotsContainer"]
+layout_mode = 2
+text = "slot1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="slot2" type="Label" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo/SlotsContainer"]
+layout_mode = 2
+text = "slot2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="slot3" type="Label" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo/SlotsContainer"]
+layout_mode = 2
+text = "slot3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AmmoBackground" type="Panel" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -85.0
+offset_top = -40.0
+offset_right = 85.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Ammo" type="Label" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo/AmmoBackground"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -73.5
+offset_top = -11.5
+offset_right = 73.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "ammo"
+horizontal_alignment = 1
+
+[node name="ViewModelEffects" type="Node3D" parent="CameraController/CameraEffects/Camera3D" node_paths=PackedStringArray("player", "inputs")]
+script = ExtResource("8_1trgk")
+player = NodePath("../../../..")
+inputs = NodePath("../../../../PlayerInputs")
+max_rotation = 1.0
+
+[node name="ViewModelArms" parent="CameraController/CameraEffects/Camera3D/ViewModelEffects" instance=ExtResource("9_l0x11")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.3081709, 0.18635404)
+
+[node name="Components" type="Node" parent="."]
+
+[node name="MovementController" type="Node" parent="Components" node_paths=PackedStringArray("inputs")]
+script = ExtResource("10_vw4gh")
+inputs = NodePath("../../PlayerInputs")
+
+[node name="AnimationController" type="Node" parent="Components"]
+script = ExtResource("11_1rjge")
+
+[node name="StateController" type="Node" parent="Components" node_paths=PackedStringArray("player", "movement_controller", "camera_effects_controller", "inputs")]
+script = ExtResource("12_3bj3w")
+player = NodePath("../..")
+movement_controller = NodePath("../MovementController")
+camera_effects_controller = NodePath("../../CameraController/CameraEffects")
+inputs = NodePath("../../PlayerInputs")
+
+[node name="AudioController" type="Node" parent="Components" node_paths=PackedStringArray("player", "wind_stream", "step_audio_stream", "landing_loud", "landing_soft")]
+script = ExtResource("13_h5op6")
+player = NodePath("../..")
+wind_stream = NodePath("../../Audio/Wind")
+step_audio_stream = NodePath("../../Audio/Footsteps/ConcreteStep")
+landing_loud = NodePath("../../Audio/Footsteps/LandingHeavy")
+landing_soft = NodePath("../../Audio/Footsteps/LandingSoft")
+
+[node name="WeaponManager" type="Node" parent="Components" node_paths=PackedStringArray("view_model", "camera_effects", "camera", "inputs")]
+script = ExtResource("14_sd7vp")
+slot_1_weapon_scene = ExtResource("15_ysbpt")
+slot_2_weapon_scene = ExtResource("16_fg8lk")
+slot_3_weapon_scene = ExtResource("15_add58")
+weapon_drop_force = 10.0
+view_model = NodePath("../../CameraController/CameraEffects/Camera3D/ViewModelEffects/ViewModelArms")
+camera_effects = NodePath("../../CameraController/CameraEffects")
+camera = NodePath("../../CameraController/CameraEffects/Camera3D")
+inputs = NodePath("../../PlayerInputs")
+metadata/_custom_type_script = "uid://7tu5vk0cp540"
+
+[node name="Audio" type="Node3D" parent="."]
+
+[node name="Footsteps" type="Node3D" parent="Audio"]
+
+[node name="ConcreteStep" type="AudioStreamPlayer3D" parent="Audio/Footsteps"]
+stream = SubResource("AudioStreamRandomizer_a38lo")
+
+[node name="LandingSoft" type="AudioStreamPlayer3D" parent="Audio/Footsteps"]
+stream = SubResource("AudioStreamRandomizer_a38lo")
+
+[node name="LandingHeavy" type="AudioStreamPlayer3D" parent="Audio/Footsteps"]
+stream = SubResource("AudioStreamSynchronized_i4ail")
+
+[node name="Wind" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("19_r4r2l")
+volume_db = -50.0
+autoplay = true
+
+[node name="WeaponNoises" type="Node3D" parent="Audio"]
+
+[node name="WeaponFireNoise" type="AudioStreamPlayer3D" parent="Audio/WeaponNoises"]
+max_polyphony = 3
+
+[node name="PickUpDetector" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PickUpDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0009766, 0)
+shape = SubResource("CylinderShape3D_ujl30")
+
+[node name="RollbackSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("22_fg8lk")
+root = NodePath("..")
+enable_prediction = true
+state_properties = Array[String]([":global_transform", "CameraController:transform"])
+input_properties = Array[String](["PlayerInputs:movement_input", "PlayerInputs:jump_input"])
+enable_input_broadcast = false
+metadata/_custom_type_script = "uid://d350u8evihs1u"
+
+[node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
+script = ExtResource("23_8785w")
+root = NodePath("..")
+properties = Array[String]([":global_transform", "CameraController:transform"])
+metadata/_custom_type_script = "uid://dour8fehaaugp"
+
+[connection signal="landed_loud" from="Components/StateController" to="Components/AudioController" method="_on_state_controller_landed_loud"]
+[connection signal="landed_soft" from="Components/StateController" to="Components/AudioController" method="_on_state_controller_landed_soft"]
+[connection signal="weapon_dropped" from="Components/WeaponManager" to="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo" method="_on_weapon_manager_weapon_dropped"]
+[connection signal="weapon_equipped" from="Components/WeaponManager" to="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo" method="_on_weapon_manager_weapon_equipped"]
+[connection signal="weapon_equipped" from="Components/WeaponManager" to="Components/MovementController" method="_on_weapon_manager_weapon_equipped"]
+[connection signal="weapon_fired" from="Components/WeaponManager" to="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo" method="_on_weapon_manager_weapon_fired"]
+[connection signal="weapon_pickup" from="Components/WeaponManager" to="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo" method="_on_weapon_manager_weapon_pickup"]
+[connection signal="weapon_reloaded" from="Components/WeaponManager" to="CameraController/CameraEffects/Camera3D/CanvasLayer/WeaponInfo" method="_on_weapon_manager_weapon_reloaded"]
+[connection signal="body_entered" from="PickUpDetector" to="Components/WeaponManager" method="_on_pick_up_detector_body_entered"]

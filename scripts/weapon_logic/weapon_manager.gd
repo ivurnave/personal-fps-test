@@ -11,6 +11,8 @@ extends Node
 @export var view_model : ViewModelArms
 @export var camera_effects : CameraEffectsController
 @export var camera : Camera3D
+#@export var inputs : InputSynchronizer
+@export var inputs : InputSynchronizerRPC
 
 var current_weapon : Weapon
 var current_weapon_slot : String
@@ -22,16 +24,36 @@ signal weapon_reloaded(weapon: WeaponResource)
 signal weapon_dropped(weapon: WeaponResource)
 signal weapon_pickup(weapon: WeaponResource)
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("fire"):
+func _unhandled_input(_event: InputEvent) -> void:
+	if !is_multiplayer_authority(): return
+	if inputs.fire_input:
 		current_weapon.trigger_down()
-	if event.is_action_released("fire"):
+	else:
 		current_weapon.trigger_up()
-	if event.is_action_pressed("slot1"): equip_weapon("slot1")
-	if event.is_action_pressed("slot2"): equip_weapon("slot2")
-	if event.is_action_pressed("slot3"): equip_weapon("slot3")
-	if event.is_action_pressed("reload"): current_weapon.start_reload()
-	if event.is_action_pressed("drop_weapon"): drop_current_weapon()
+	if inputs.reload_input:
+		current_weapon.start_reload()
+	##if !is_multiplayer_authority(): return
+	#if event.is_action_pressed("fire"):
+		#current_weapon.trigger_down()
+	#if event.is_action_released("fire"):
+		#current_weapon.trigger_up()
+	#if event.is_action_pressed("slot1"): equip_weapon.rpc("slot1")
+	#if event.is_action_pressed("slot2"): equip_weapon.rpc("slot2")
+	#if event.is_action_pressed("slot3"): equip_weapon.rpc("slot3")
+	#if event.is_action_pressed("reload"): current_weapon.start_reload()
+	#if event.is_action_pressed("drop_weapon"): drop_current_weapon.rpc()
+
+func _process(_delta):
+	#if !is_multiplayer_authority(): return
+	if inputs.slot1: equip_weapon("slot1")
+	if inputs.slot2: equip_weapon("slot2")
+	if inputs.slot3: equip_weapon("slot3")
+	if inputs.fire_input:
+		current_weapon.trigger_down()
+	else:
+		current_weapon.trigger_up()
+	if inputs.reload_input:
+		current_weapon.start_reload()
 
 func _ready():
 	if slot_1_weapon_scene: weapon_dictionary.set("slot1", slot_1_weapon_scene.instantiate())
@@ -39,6 +61,7 @@ func _ready():
 	if slot_3_weapon_scene: weapon_dictionary.set("slot3", slot_3_weapon_scene.instantiate())
 	equip_next_available_weapon()
 
+@rpc("call_local")
 func equip_weapon(slot: String):
 	var new_weapon : Weapon = weapon_dictionary.get(slot)
 	if slot == current_weapon_slot || !new_weapon:
@@ -55,6 +78,7 @@ func equip_weapon(slot: String):
 	current_weapon.equip()
 	weapon_equipped.emit(current_weapon.weapon_resource)
 
+@rpc("call_local")
 func drop_current_weapon():
 	if current_weapon.weapon_resource.is_droppable:
 		# Stop whatever we're doing with the weapon
