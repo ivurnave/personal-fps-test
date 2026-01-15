@@ -1,16 +1,16 @@
-[gd_scene load_steps=21 format=3 uid="uid://5lkd7bxu0obe"]
+[gd_scene load_steps=21 format=3 uid="uid://d2f616sd8q8o6"]
 
-[ext_resource type="Script" uid="uid://kecaqtrlbaex" path="res://netfox_multiplayer/player/player_controller_netfox.gd" id="1_hcwtg"]
-[ext_resource type="Script" uid="uid://csvwfkdwmbwl5" path="res://netfox_multiplayer/player/player_inputs_netfox.gd" id="2_hcwtg"]
-[ext_resource type="Script" uid="uid://c25jqsye12mbf" path="res://netfox_multiplayer/player/movement/movement_controller_netfox.gd" id="3_hcwtg"]
-[ext_resource type="Script" uid="uid://crjnkiliaaya1" path="res://scripts/camera/camera_effects.gd" id="4_1n4b4"]
-[ext_resource type="Script" uid="uid://cexqp82fwgntw" path="res://netfox_multiplayer/player/camera_controller_netfox.gd" id="4_hcwtg"]
-[ext_resource type="PackedScene" uid="uid://5y3sqpdp2eno" path="res://netfox_multiplayer/weapon/weapon_netfox.tscn" id="4_t41js"]
-[ext_resource type="Script" uid="uid://bvysf2lrxw8jc" path="res://netfox_multiplayer/player/view_model_effects_netfox.gd" id="6_hcwtg"]
-[ext_resource type="Script" uid="uid://cf73povaq6to6" path="res://scripts/hud/crosshair.gd" id="6_vod0g"]
-[ext_resource type="Script" uid="uid://ba500q6ptq6yv" path="res://scripts/hurtbox.gd" id="11_0vlkt"]
-[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="22_lq4jd"]
-[ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="23_qmt4l"]
+[ext_resource type="Script" uid="uid://kecaqtrlbaex" path="res://netfox_multiplayer/player/player_controller_netfox.gd" id="1_3tqbf"]
+[ext_resource type="Script" uid="uid://csvwfkdwmbwl5" path="res://netfox_multiplayer/player/player_inputs_netfox.gd" id="2_118un"]
+[ext_resource type="Script" uid="uid://c25jqsye12mbf" path="res://netfox_multiplayer/player/movement/movement_controller_netfox.gd" id="3_dorjq"]
+[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="4_dgtku"]
+[ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="5_h473m"]
+[ext_resource type="Script" uid="uid://cexqp82fwgntw" path="res://netfox_multiplayer/player/camera_controller_netfox.gd" id="6_x4e16"]
+[ext_resource type="Script" uid="uid://crjnkiliaaya1" path="res://scripts/camera/camera_effects.gd" id="7_2mox7"]
+[ext_resource type="PackedScene" uid="uid://ca1mechv5lrmf" path="res://ragdoll/view_model.tscn" id="8_porio"]
+[ext_resource type="Script" uid="uid://bvysf2lrxw8jc" path="res://netfox_multiplayer/player/view_model_effects_netfox.gd" id="9_nhu31"]
+[ext_resource type="Script" uid="uid://cf73povaq6to6" path="res://scripts/hud/crosshair.gd" id="11_woky4"]
+[ext_resource type="Script" uid="uid://ba500q6ptq6yv" path="res://scripts/hurtbox.gd" id="12_f86kf"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hcwtg"]
 properties/0/path = NodePath(".:player_id")
@@ -46,21 +46,21 @@ viewport_path = NodePath("HitHead/Head/HealthBar/Sprite3D/SubViewport")
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("inputs")]
 collision_layer = 2
-script = ExtResource("1_hcwtg")
+script = ExtResource("1_3tqbf")
 inputs = NodePath("Inputs")
 
 [node name="StateController" type="Node" parent="."]
 
 [node name="Inputs" type="Node" parent="."]
-script = ExtResource("2_hcwtg")
+script = ExtResource("2_118un")
 mouse_sensitivity = 0.2
 
 [node name="MovementController" type="Node" parent="." node_paths=PackedStringArray("inputs")]
-script = ExtResource("3_hcwtg")
+script = ExtResource("3_dorjq")
 inputs = NodePath("../Inputs")
 
 [node name="RollbackSynchronizer" type="Node" parent="." node_paths=PackedStringArray("root")]
-script = ExtResource("22_lq4jd")
+script = ExtResource("4_dgtku")
 root = NodePath("..")
 state_properties = Array[String]([":transform", ":velocity", "CameraController:transform"])
 input_properties = Array[String](["Inputs:movement_input", "Inputs:look_angle", "Inputs:jump_input", "Inputs:fire_input"])
@@ -70,7 +70,7 @@ metadata/_custom_type_script = "uid://d350u8evihs1u"
 replication_config = SubResource("SceneReplicationConfig_hcwtg")
 
 [node name="TickInterpolator" type="Node" parent="." node_paths=PackedStringArray("root")]
-script = ExtResource("23_qmt4l")
+script = ExtResource("5_h473m")
 root = NodePath("..")
 properties = Array[String]([":transform", "CameraController:transform"])
 metadata/_custom_type_script = "uid://dour8fehaaugp"
@@ -81,24 +81,19 @@ shape = SubResource("CapsuleShape3D_7cusj")
 
 [node name="CameraController" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.874, 0)
-script = ExtResource("4_hcwtg")
+script = ExtResource("6_x4e16")
 
 [node name="CameraEffects" type="Node3D" parent="CameraController"]
-script = ExtResource("4_1n4b4")
+script = ExtResource("7_2mox7")
 snappiness = 30.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraController/CameraEffects"]
 fov = 90.0
 
-[node name="Hand" type="Node3D" parent="CameraController/CameraEffects/Camera3D" node_paths=PackedStringArray("inputs")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.209, -0.171, -0.311)
-script = ExtResource("6_hcwtg")
+[node name="ViewModel" parent="CameraController/CameraEffects/Camera3D" node_paths=PackedStringArray("inputs") instance=ExtResource("8_porio")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.288, 0.372)
+script = ExtResource("9_nhu31")
 inputs = NodePath("../../../../Inputs")
-
-[node name="Weapon" parent="CameraController/CameraEffects/Camera3D/Hand" node_paths=PackedStringArray("inputs", "camera") instance=ExtResource("4_t41js")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.9802322e-08)
-inputs = NodePath("../../../../../Inputs")
-camera = NodePath("../..")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="CameraController/CameraEffects/Camera3D"]
 
@@ -119,7 +114,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("6_vod0g")
+script = ExtResource("11_woky4")
 dot_radius = 2.0
 
 [node name="HealthBar" type="ProgressBar" parent="CameraController/CameraEffects/Camera3D/CanvasLayer/HUD"]
@@ -139,7 +134,7 @@ value = 100.0
 
 [node name="HitBody" type="Area3D" parent="." node_paths=PackedStringArray("owning_node")]
 collision_layer = 4
-script = ExtResource("11_0vlkt")
+script = ExtResource("12_f86kf")
 owning_node = NodePath("..")
 metadata/_custom_type_script = "uid://ba500q6ptq6yv"
 
@@ -153,7 +148,7 @@ skeleton = NodePath("../../..")
 
 [node name="HitHead" type="Area3D" parent="." node_paths=PackedStringArray("owning_node")]
 collision_layer = 4
-script = ExtResource("11_0vlkt")
+script = ExtResource("12_f86kf")
 owning_node = NodePath("..")
 type = 0
 metadata/_custom_type_script = "uid://ba500q6ptq6yv"
@@ -180,5 +175,3 @@ size = Vector2i(200, 30)
 [node name="ProgressBar" type="ProgressBar" parent="HitHead/Head/HealthBar/Sprite3D/SubViewport"]
 offset_right = 200.0
 offset_bottom = 30.0
-
-[connection signal="weapon_fired" from="CameraController/CameraEffects/Camera3D/Hand/Weapon" to="CameraController/CameraEffects" method="on_weapon_fired"]

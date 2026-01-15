@@ -10,7 +10,8 @@ class_name PlayerControllerNetfox
 
 @onready var movement_controller: MovementControllerNetfox = $MovementController
 @onready var camera_controller : CameraControllerNetfox = $CameraController
-@onready var view_model_effects : ViewModelEffectsNetfox = $CameraController/CameraEffects/Camera3D/Hand
+# @onready var view_model_effects : ViewModelEffectsNetfox = $CameraController/CameraEffects/Camera3D/Hand
+@onready var view_model_effects : ViewModelEffectsNetfox = $CameraController/CameraEffects/Camera3D/ViewModel
 @onready var camera : Camera3D = $CameraController/CameraEffects/Camera3D
 @onready var hud : Control = $CameraController/CameraEffects/Camera3D/CanvasLayer/HUD
 @onready var healthbar : ProgressBar = $CameraController/CameraEffects/Camera3D/CanvasLayer/HUD/HealthBar
